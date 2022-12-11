@@ -29,6 +29,7 @@ function handleFormSubmit (evt) {
 
     newName.textContent = name;
     newJob.textContent = job;
+    form.classList.remove('open')
 
 }
 form.addEventListener('submit', handleFormSubmit); 
