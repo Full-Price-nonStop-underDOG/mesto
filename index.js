@@ -14,8 +14,8 @@ buttonClose.addEventListener('click', () =>{
 
 
 
-let nameInput = document.querySelector('.form__input_name');
-let jobInput = document.querySelector('.form__input_job');
+let nameInput = document.querySelector('.form__input-name');
+let jobInput = document.querySelector('.form__input-job');
 
 
 function handleFormSubmit (evt) {
