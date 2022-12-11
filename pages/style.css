@@ -1,0 +1,43 @@
+@import url(../vendor/normalize.css);
+
+@import url(../mesto/vendor/fonts/fonts.css);
+
+@import url(../blocks/page/page.css);
+
+@import url(../blocks/main/main.css);
+
+@import url(../blocks/header/header.css);
+@import url(../blocks/header/__logo/header__logo.css);
+
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/__name/profile__name.css);
+@import url(../blocks/profile/__job/profile__job.css);
+@import url(../blocks/profile/__info/profile__info.css);
+@import url(../blocks/profile/__button-add/profile__button-add.css);
+@import url(../blocks/profile/__button-edit/profile__button-edit.css);
+@import url(../blocks/profile/__avatar/profile__avatar.css);
+@import url(../blocks/profile/__info-description/profile__info-description.css);
+
+@import url(../blocks/mesta/mesta.css);
+@import url(../blocks/mesta/__img/mesto__img.css);
+@import url(../blocks/mesta/__like/mesto__like.css);
+@import url(../blocks/mesta/__non-image/mesto__non-image.css);
+@import url(../blocks/mesta/__title/mesto__title.css);
+
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__author/footer__author.css);
+
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/__close/popup__close.css);
+
+@import url(../blocks/form/form.css);
+@import url(../blocks/form/__title/form__title.css);
+@import url(../blocks/form/__text/form__text.css);
+@import url(../blocks/form/__field/form__field.css);
+@import url(../blocks/form/__close/popup__close.css);
+@import url(../blocks/form/__button/form__button.css);
+
+
+
+

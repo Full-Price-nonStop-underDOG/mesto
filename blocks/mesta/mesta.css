@@ -1,0 +1,31 @@
+.mesta {
+    margin-top: 51px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 15px;
+}
+
+@media screen and (max-width: 900px) {
+
+    .mesta {
+
+        grid-template-columns: min-content min-content;
+        grid-template-rows: 1fr 1fr 1fr;
+        max-width: 600px;
+        margin: 37px auto 0 auto;
+    }
+
+}
+
+@media screen and (max-width: 660px) {
+
+    .mesta {
+
+        grid-template-columns: min-content;
+        grid-template-rows: repeat(1fr, 6);
+        max-width: 282px;
+        margin: 37px auto 0 auto;
+    }
+
+}

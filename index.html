@@ -1,33 +1,100 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto</title>
 
-    <link href="./style.css" rel="stylesheet" type="text/css">
+    <link href="./pages/style.css" rel="stylesheet" type="text/css">
+
 </head>
-<body>
+
+<body class="page">
     <header class="header">
-        <img class="header__logo" alt="логотип-место">
+        <img class="header__logo" src="./images/Vector.svg" alt="логотип-место">
     </header>
-    <main>
+    <main class="main">
         <section class="profile">
-            <img class="profile__avatar">
+            <img class="profile__avatar" src="./images/урсула.webp" alt="аватар">
             <div class="profile__info">
                 <div class="profile__info-description">
-                    <h2 class="profile__name"></h2>
-                    <p class="profile__interest"></p>
+                    <h2 class="profile__name">Урсула Крёбер</h2>
+                    <p class="profile__job">Американская писательница </p>
                 </div>
-                <button class="profile__button"></button>
+                <button class="profile__button-edit" type="button"></button>
             </div>
-            
+            <button class="profile__button-add"></button>
         </section>
-        <section class="mesta"></section>
+        <section class="mesta">
+            <div class="mesto">
+                <img class="mesto__img" src="../mesto/images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
+                <div class="mesto__non-image">
+                    <h2 class="mesto__title">Грибынычsfbsfbsfbsfbsbfsbsbsbsbsbsb</h2>
+                    <button class="mesto__like"></button>
+                </div>
+            </div>
+            <div class="mesto">
+                <img class="mesto__img" src="../mesto/images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
+                <div class="mesto__non-image">
+                    <h2 class="mesto__title">Грибыныч</h2>
+                    <button class="mesto__like"></button>
+                </div>
+            </div>
+            <div class="mesto">
+                <img class="mesto__img" src="../mesto/images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
+                <div class="mesto__non-image">
+                    <h2 class="mesto__title">Грибыныч</h2>
+                    <button class="mesto__like"></button>
+                </div>
+            </div>
+            <div class="mesto">
+                <img class="mesto__img" src="../mesto/images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
+                <div class="mesto__non-image">
+                    <h2 class="mesto__title">Грибыныч</h2>
+                    <button class="mesto__like"></button>
+                </div>
+            </div>
+            <div class="mesto">
+                <img class="mesto__img" src="../mesto/images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
+                <div class="mesto__non-image">
+                    <h2 class="mesto__title">Грибыныч</h2>
+                    <button class="mesto__like"></button>
+                </div>
+            </div>
+            <div class="mesto">
+                <img class="mesto__img" src="../mesto/images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
+                <div class="mesto__non-image">
+                    <h2 class="mesto__title">Грибыныч</h2>
+                    <button class="mesto__like"></button>
+                </div>
+            </div>
+        </section>
     </main>
     <footer class="footer">
-        <div class="footer__author"></div>
+        <p class="footer__author">© 2020 Mesto Russia</p>
     </footer>
+    <div class="popup ">
+
+        <div class="popup__container">
+
+
+            <form class="form">
+                <h2 class="form__title">Редактировать профиль</h2>
+
+                <label class="form__field"><input value="Урсула Крёбер" minlength="4" maxlength="40"
+                        class="form__text form__input_name"></label>
+                <label class="form__field"><input value="Американская писательница " minlength="4" maxlength="200"
+                        class="form__text form__input_job"></label>
+                <button class="form__button">Сохранить</button>
+            </form>
+            <button class="popup__close"></button>
+
+        </div>
+
+    </div>
+    <script src="./index.js"></script>
 </body>
+
 </html>
