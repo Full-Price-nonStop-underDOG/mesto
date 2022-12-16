@@ -12,7 +12,7 @@
 </head>
 
 <body class="page">
-    <header class="header">
+    <header class="header header_opacity">
         <img class="header__logo" src="./images/Vector.svg" alt="логотип-место">
     </header>
     <main class="main">
@@ -20,54 +20,54 @@
             <img class="profile__avatar" src="./images/урсула.webp" alt="аватар">
             <div class="profile__info">
                 <div class="profile__info-description">
-                    <h2 class="profile__name">Урсула Крёбер</h2>
+                    <h1 class="profile__name">Урсула Крёбер</h1>
                     <p class="profile__job">Американская писательница </p>
                 </div>
-                <button class="profile__button-edit" type="button"></button>
+                <button class="profile__button-edit" type="button" aria-label="Редактировать"></button>
             </div>
-            <button class="profile__button-add"></button>
+            <button class="profile__button-add" type="button" aria-label=Добавить"></button>
         </section>
         <section class="mesta">
             <div class="mesto">
                 <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
                 <div class="mesto__non-image">
                     <h2 class="mesto__title">Грибынычsfbsfbsfbsfbsbfsbsbsbsbsbsb</h2>
-                    <button class="mesto__like"></button>
+                    <button class="mesto__like" type="button" aria-label="Лайк"></button>
                 </div>
             </div>
             <div class="mesto">
                 <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
                 <div class="mesto__non-image">
                     <h2 class="mesto__title">Грибыныч</h2>
-                    <button class="mesto__like"></button>
+                    <button class="mesto__like" type="button" aria-label="Лайк"></button>
                 </div>
             </div>
             <div class="mesto">
                 <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
                 <div class="mesto__non-image">
                     <h2 class="mesto__title">Грибыныч</h2>
-                    <button class="mesto__like"></button>
+                    <button class="mesto__like" type="button" aria-label="Лайк"></button>
                 </div>
             </div>
             <div class="mesto">
                 <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
                 <div class="mesto__non-image">
                     <h2 class="mesto__title">Грибыныч</h2>
-                    <button class="mesto__like"></button>
+                    <button class="mesto__like" type="button" aria-label="Лайк"></button>
                 </div>
             </div>
             <div class="mesto">
                 <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
                 <div class="mesto__non-image">
                     <h2 class="mesto__title">Грибыныч</h2>
-                    <button class="mesto__like"></button>
+                    <button class="mesto__like" type="button" aria-label="Лайк"></button>
                 </div>
             </div>
             <div class="mesto">
                 <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
                 <div class="mesto__non-image">
                     <h2 class="mesto__title">Грибыныч</h2>
-                    <button class="mesto__like"></button>
+                    <button class="mesto__like" type="button" aria-label="Лайк"></button>
                 </div>
             </div>
         </section>
@@ -80,16 +80,16 @@
         <div class="popup__container">
 
 
-            <form class="form">
+            <form class="form" name="Информация">
                 <h2 class="form__title">Редактировать профиль</h2>
 
                 <label class="form__field"><input value="Урсула Крёбер" minlength="4" maxlength="40"
                         class="form__text form__input-name"></label>
                 <label class="form__field"><input value="Американская писательница " minlength="4" maxlength="200"
                         class="form__text form__input-job"></label>
-                <button class="form__button">Сохранить</button>
+                <button class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
             </form>
-            <button class="popup__close"></button>
+            <button class="popup__close" type="button" aria-label="Закрыть"></button>
 
         </div>
 

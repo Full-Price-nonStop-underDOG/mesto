@@ -19,10 +19,11 @@
 @import url(../blocks/profile/__info-description/profile__info-description.css);
 
 @import url(../blocks/mesta/mesta.css);
-@import url(../blocks/mesta/__img/mesto__img.css);
-@import url(../blocks/mesta/__like/mesto__like.css);
-@import url(../blocks/mesta/__non-image/mesto__non-image.css);
-@import url(../blocks/mesta/__title/mesto__title.css);
+
+@import url(../blocks/mesto/__img/mesto__img.css);
+@import url(../blocks/mesto/__like/mesto__like.css);
+@import url(../blocks/mesto/__non-image/mesto__non-image.css);
+@import url(../blocks/mesto/__title/mesto__title.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__author/footer__author.css);
@@ -30,6 +31,7 @@
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__close/popup__close.css);
+@import url(../blocks/popup/_open/popup_open.css);
 
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/__title/form__title.css);
