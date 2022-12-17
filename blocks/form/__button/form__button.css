@@ -12,10 +12,10 @@
     font-size: 18px;
     line-height: 22px;
     padding: 0;
+    cursor: pointer;
 }
 
 .form__button:hover{
-    cursor: pointer;
     opacity: .6;
 }
 

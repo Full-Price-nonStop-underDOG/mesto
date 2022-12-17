@@ -8,10 +8,10 @@
     top: -44px;
     border: none;
     padding: 0;
+    cursor: pointer;
 }
 
 .popup__close:hover{
-    cursor: pointer;
     opacity: .6;
 }
 
