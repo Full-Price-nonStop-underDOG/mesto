@@ -10,3 +10,6 @@
     cursor: pointer;
 }
 
+.mesto__like:hover{
+    opacity: .6;
+}

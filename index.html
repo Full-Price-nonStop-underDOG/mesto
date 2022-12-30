@@ -28,54 +28,26 @@
             <button class="profile__button-add" type="button" aria-label="Добавить"></button>
         </section>
         <section class="mesta">
-            <div class="mesto">
-                <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
-                <div class="mesto__non-image">
-                    <h2 class="mesto__title">Грибынычsfbsfbsfbsfbsbfsbsbsbsbsbsb</h2>
-                    <button class="mesto__like" type="button" aria-label="Лайк"></button>
-                </div>
-            </div>
-            <div class="mesto">
-                <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
-                <div class="mesto__non-image">
-                    <h2 class="mesto__title">Грибыныч</h2>
-                    <button class="mesto__like" type="button" aria-label="Лайк"></button>
-                </div>
-            </div>
-            <div class="mesto">
-                <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
-                <div class="mesto__non-image">
-                    <h2 class="mesto__title">Грибыныч</h2>
-                    <button class="mesto__like" type="button" aria-label="Лайк"></button>
-                </div>
-            </div>
-            <div class="mesto">
-                <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
-                <div class="mesto__non-image">
-                    <h2 class="mesto__title">Грибыныч</h2>
-                    <button class="mesto__like" type="button" aria-label="Лайк"></button>
-                </div>
-            </div>
-            <div class="mesto">
-                <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
-                <div class="mesto__non-image">
-                    <h2 class="mesto__title">Грибыныч</h2>
-                    <button class="mesto__like" type="button" aria-label="Лайк"></button>
-                </div>
-            </div>
-            <div class="mesto">
-                <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
-                <div class="mesto__non-image">
-                    <h2 class="mesto__title">Грибыныч</h2>
-                    <button class="mesto__like" type="button" aria-label="Лайк"></button>
-                </div>
-            </div>
+            
+            
         </section>
     </main>
     <footer class="footer">
         <p class="footer__author">© 2020 Mesto Russia</p>
     </footer>
-    <div class="popup ">
+    <template id="mesto">
+        <div class="mesto">
+            <button class="mesto__delete" type="button" aria-label="Удалить"></button>
+            <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
+            <div class="mesto__non-image">
+                <h2 class="mesto__title">Грибыныч</h2>
+                <button class="mesto__like" type="button" aria-label="Лайк"></button>
+                
+            </div>
+        </div>
+    </template>
+
+    <div class="popup " id="popup_type_edit">
 
         <div class="popup__container">
 
@@ -92,7 +64,36 @@
             <button class="popup__close" type="button" aria-label="Закрыть"></button>
 
         </div>
+        
+    </div>
+    <div class="popup" id="popup_type_new-card" >
+        
+        <div class="popup__container">
 
+
+            <form class="form" name="Information" id="form__add">
+                <h2 class="form__title">Новое место</h2>
+
+                <input value="Название " minlength="4" maxlength="40"
+                    class="form__field form__text form__field_text_name" id="form__field_text_name" name="Profile-name">
+                <input value="Ссылка на картинку" minlength="4" maxlength="200"
+                    class="form__field form__text form__field_text_job" id="form__field_text_job" name="Profile-job">
+                <button class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
+            </form>
+            <button class="popup__close" id="popup__close" type="button" aria-label="Закрыть"></button>
+
+        </div>
+    </div>
+
+    <div class="popup popup_img" >
+
+        <div class="popup__container popup__container-img">
+            <img class="popup__fullscreen-image" src="./images/photo_2022-12-07_15-50-21.jpg" alt="">
+            <p class="popup__fullscreen-title">csh</p>
+            
+            <button class="popup__close" type="button" aria-label="Закрыть"></button>
+
+        </div>
     </div>
     <script src="./scripts/index.js"></script>
 </body>

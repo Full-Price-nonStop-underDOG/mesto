@@ -1,0 +1,13 @@
+.popup__container-img{
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+    
+    width: max-content;
+}
+
+
+
+
+
