@@ -41,48 +41,48 @@ function closePopup(event){
 }
 
 
-function createCard(event){
-  event.preventDefault();
-  const userElement = userTemplate.querySelector('.mesto').cloneNode(true);
-  
-  
-  imgOpen.src = imgInput.value;
-  userElement.querySelector('.mesto__title').textContent = tagInput.value;
-  cardEventListeners(userElement);
-  return userElement;
-  
-}
 
-function cardEventListeners(userElement){
+function createCard(item){
+  const userElement = userTemplate.querySelector('.mesto').cloneNode(true);
   const buttonLike = userElement.querySelector('.mesto__like');
   const buttonDelete = userElement.querySelector('.mesto__delete');
+  const createImage  = userElement.querySelector('.mesto__img');
+  const createTitle = userElement.querySelector('.mesto__title');
   const imgOpen = userElement.querySelector('.mesto__img');
+  
+  createTitle.textContent = item.name;
+  createImage.src = item.link;
 
   buttonLike.addEventListener('click', () => {
     buttonLike.classList.toggle('mesto__like_active');
   });
-  
   buttonDelete.addEventListener('click', deleteCard);
-
   imgOpen.addEventListener('click', ()=>{
     imagePopup.classList.add('popup_open');
     addImage.src = userElement.querySelector('.mesto__img').src;
     addTitle.textContent = userElement.querySelector('.mesto__title').textContent;
+   
   });
+
+  return userElement;
 }
 
-function addscard(userElement){
+function addCard(evt) {
   evt.preventDefault();
-  newMesto.prepend(userElement); 
-  
+   
+  const textValue = tagInput.value;
+  const imageValue = imgInput.value;
 
+
+  const element = createCard({ name: textValue, link: imageValue });
+  newMesto.prepend(element);
   closePopup(addNewCardPopup);
   imgInput.value = '';
   tagInput.value = '';
 }
 
 formSubmit.addEventListener('submit', handleFormSubmit);
-formNewCard.addEventListener('submit', addscard);
+formNewCard.addEventListener('submit', addCard);
 
 
 
@@ -157,31 +157,15 @@ const initialCards = [
 ];
 
 
-
-
-
 function addMesta(initialCards){
   for (let i = 0; i < initialCards.length; i++) {
-    const userElement = userTemplate.querySelector('.mesto').cloneNode(true);
-    let buttonLike = userElement.querySelector('.mesto__like');
+    const textValue = initialCards[i].name;
+    const imageValue = initialCards[i].link;
+    const element = createCard({ name: textValue, link: imageValue });
     
-    let buttonDelete = userElement.querySelector('.mesto__delete');
-    let imgOpen = userElement.querySelector('.mesto__img');
     
-  buttonLike.addEventListener('click', () => {
-    buttonLike.classList.toggle('mesto__like_active');
-  });
-  buttonDelete.addEventListener('click', deleteCard);
     
-    userElement.querySelector('.mesto__img').src = initialCards[i].link;
-    userElement.querySelector('.mesto__title').textContent = initialCards[i].name;
-    imgOpen.addEventListener('click', ()=>{
-      massiveImage.src = initialCards[i].link;
-      massiveTitle.textContent = initialCards[i].name;
-      
-      openPopup(imagePopup);
-    });
-    newMesto.append(userElement); 
+    newMesto.append(element); 
   }
 }
 
