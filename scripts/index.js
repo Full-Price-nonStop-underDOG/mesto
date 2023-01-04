@@ -1,60 +1,89 @@
-let buttonEdit = document.querySelector('.profile__button-edit');
-let buttonAdd = document.querySelector('.profile__button-add');
-let formEdit = document.querySelector('#popup_type_edit');
-let formAdd = document.querySelector('#popup_type_new-card');
-let formSubmit = document.querySelector('.form');
-let formNewCard = document.querySelector('#form__add');
-let nameInput = document.querySelector('.form__field_text_name');
-let jobInput = document.querySelector('.form__field_text_job');
-let tagInput = document.querySelector('#form__field_text_name');
-let imgInput = document.querySelector('#form__field_text_job');
+const formSubmit = document.querySelector('.form');
+const formNewCard = document.querySelector('#form__add');
+const imagePopup = document.querySelector('.popup_img');
+// Переменные для всех трех попапов 
+
+const buttonEdit = document.querySelector('.profile__button-edit');
+const buttonAdd = document.querySelector('.profile__button-add');
+const profilePopup = document.querySelector('#popup_type_edit');
+const addNewCardPopup = document.querySelector('#popup_type_new-card');
+
+const nameInput = document.querySelector('.form__field_text_name');
+const jobInput = document.querySelector('.form__field_text_job');
+const tagInput = document.querySelector('#form__field_text_name');
+const imgInput = document.querySelector('#form__field_text_job');
 
 
-let popupImg = document.querySelector('.popup_img');
 
-let newName = document.querySelector('.profile__name');
-let newJob = document.querySelector('.profile__job');
-let buttonClose = document.querySelector('.popup__close');
-let buttonCloseAdd = document.querySelector('#popup__close');
+
+const newName = document.querySelector('.profile__name');
+const newJob = document.querySelector('.profile__job');
+const profileButtonClose = document.querySelector('.popup__close_profile');
+const buttonCloseAdd = document.querySelector('#popup__close');
 
 const userTemplate = document.querySelector('#mesto').content; 
 const newMesto = document.querySelector('.mesta');
-let popupClose = popupImg.querySelector('.popup__close')
+const popupClose = imagePopup.querySelector('.popup__close')
+
+const massiveImage = document.querySelector('.popup__fullscreen-image');
+const massiveTitle = document.querySelector('.popup__fullscreen-title');
+const addImage = document.querySelector('.popup__fullscreen-image');
+const addTitle = document.querySelector('.popup__fullscreen-title');
 
 
 
+function openPopup(event){
+  event.classList.add('popup_open')
+}
+
+function closePopup(event){
+  event.classList.remove('popup_open')
+}
 
 
-
-
-
-function addCard(evt) {
-  evt.preventDefault();
+function createCard(event){
+  event.preventDefault();
   const userElement = userTemplate.querySelector('.mesto').cloneNode(true);
-  let buttonLike = userElement.querySelector('.mesto__like');
-  let buttonDelete = userElement.querySelector('.mesto__delete');
-  let imgOpen = userElement.querySelector('.mesto__img');
   
+  
+  imgOpen.src = imgInput.value;
+  userElement.querySelector('.mesto__title').textContent = tagInput.value;
+  cardEventListeners(userElement);
+  return userElement;
+  
+}
+
+function cardEventListeners(userElement){
+  const buttonLike = userElement.querySelector('.mesto__like');
+  const buttonDelete = userElement.querySelector('.mesto__delete');
+  const imgOpen = userElement.querySelector('.mesto__img');
+
   buttonLike.addEventListener('click', () => {
     buttonLike.classList.toggle('mesto__like_active');
   });
+  
   buttonDelete.addEventListener('click', deleteCard);
-  
-  let img = document.querySelector('.popup__fullscreen-image');
-  let title = document.querySelector('popup__fullscreen-title');
-  
-  userElement.querySelector('.mesto__img').src = imgInput.value;
-  userElement.querySelector('.mesto__title').textContent = tagInput.value;
+
   imgOpen.addEventListener('click', ()=>{
-    popupImg.classList.add('popup_open');
-    img.src = userElement.querySelector('.mesto__img').src;
-    title.textContent = userElement.querySelector('.mesto__title').textContent;
-   
+    imagePopup.classList.add('popup_open');
+    addImage.src = userElement.querySelector('.mesto__img').src;
+    addTitle.textContent = userElement.querySelector('.mesto__title').textContent;
   });
-  newMesto.append(userElement); 
-  
-  formAdd.classList.remove('popup_open');
 }
+
+function addscard(userElement){
+  evt.preventDefault();
+  newMesto.prepend(userElement); 
+  
+
+  closePopup(addNewCardPopup);
+  imgInput.value = '';
+  tagInput.value = '';
+}
+
+formSubmit.addEventListener('submit', handleFormSubmit);
+formNewCard.addEventListener('submit', addscard);
+
 
 
 function handleFormSubmit(evt) {
@@ -62,11 +91,13 @@ function handleFormSubmit(evt) {
 
   newName.textContent = nameInput.value;
   newJob.textContent = jobInput.value;
-  formEdit.classList.remove('popup_open');
+  closePopup(profilePopup);
+  
 }
 
 popupClose.addEventListener('click', () => {
-  popupImg.classList.remove('popup_open')
+  closePopup(imagePopup);
+  
 });
 
 
@@ -74,31 +105,28 @@ popupClose.addEventListener('click', () => {
 buttonEdit.addEventListener('click', () => {
   nameInput.value = newName.textContent;
   jobInput.value = newJob.textContent;
-  formEdit.classList.add('popup_open');
+  openPopup(profilePopup);
 });
 
 buttonAdd.addEventListener('click', () => {
-  nameInput.value = newName.textContent;
-  jobInput.value = newJob.textContent;
-  formAdd.classList.add('popup_open');
+  
+  openPopup(addNewCardPopup);
+  
 });
 
 
 
 
 
-buttonClose.addEventListener('click', () => {
-  formEdit.classList.remove('popup_open')
-  
+profileButtonClose.addEventListener('click', () => {
+  closePopup(profilePopup)
 });
 
 buttonCloseAdd.addEventListener('click', () => {
-  formAdd.classList.remove('popup_open')
-  
+  closePopup(addNewCardPopup)
 });
 
-formSubmit.addEventListener('submit', handleFormSubmit);
-formNewCard.addEventListener('submit', addCard);
+
 
 
 const initialCards = [
@@ -144,14 +172,14 @@ function addMesta(initialCards){
     buttonLike.classList.toggle('mesto__like_active');
   });
   buttonDelete.addEventListener('click', deleteCard);
-    let img = document.querySelector('.popup__fullscreen-image');
-    let title = document.querySelector('.popup__fullscreen-title');
+    
     userElement.querySelector('.mesto__img').src = initialCards[i].link;
     userElement.querySelector('.mesto__title').textContent = initialCards[i].name;
     imgOpen.addEventListener('click', ()=>{
-      img.src = userElement.querySelector('.mesto__img').src;
-      title.textContent = userElement.querySelector('.mesto__title').textContent;
-      popupImg.classList.add('popup_open');
+      massiveImage.src = initialCards[i].link;
+      massiveTitle.textContent = initialCards[i].name;
+      
+      openPopup(imagePopup);
     });
     newMesto.append(userElement); 
   }

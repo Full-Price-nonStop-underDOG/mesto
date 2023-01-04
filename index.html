@@ -55,13 +55,13 @@
             <form class="form" name="Information">
                 <h2 class="form__title">Редактировать профиль</h2>
 
-                <input value="Урсула Крёбер" minlength="4" maxlength="40"
+                <input value="" placeholder="Имя" minlength="4" maxlength="40"
                         class="form__field form__text form__field_text_name" name="Profile-name">
-                <input value="Американская писательница " minlength="4" maxlength="200"
+                <input value="" placeholder="О себе" minlength="4" maxlength="200"
                         class="form__field form__text form__field_text_job" name="Profile-job">
                 <button class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
             </form>
-            <button class="popup__close" type="button" aria-label="Закрыть"></button>
+            <button class="popup__close popup__close_profile" type="button" aria-label="Закрыть"></button>
 
         </div>
         
@@ -74,10 +74,10 @@
             <form class="form" name="Information" id="form__add">
                 <h2 class="form__title">Новое место</h2>
 
-                <input value="Название " minlength="4" maxlength="40"
-                    class="form__field form__text form__field_text_name" id="form__field_text_name" name="Profile-name">
-                <input value="Ссылка на картинку" minlength="4" maxlength="200"
-                    class="form__field form__text form__field_text_job" id="form__field_text_job" name="Profile-job">
+                <input value="" minlength="4" maxlength="40"
+                    class="form__field form__text form__field_text_name" id="form__field_text_name" name="Profile-name" placeholder="Название">
+                <input value="" minlength="4" maxlength="200"
+                    class="form__field form__text form__field_text_job" id="form__field_text_job" name="Profile-job" placeholder="Ссылка на картинку">
                 <button class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
             </form>
             <button class="popup__close" id="popup__close" type="button" aria-label="Закрыть"></button>
@@ -85,7 +85,7 @@
         </div>
     </div>
 
-    <div class="popup popup_img" >
+    <div class="popup popup_img popup_background_black" >
 
         <div class="popup__container popup__container-img">
             <img class="popup__fullscreen-image" src="./images/photo_2022-12-07_15-50-21.jpg" alt="">

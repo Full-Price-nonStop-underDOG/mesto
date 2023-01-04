@@ -38,6 +38,7 @@
 @import url(../blocks/popup/_open/popup_open.css);
 @import url(../blocks/popup/__fullscreen-image/popup__fulscreen-image.css);
 @import url(../blocks/popup/__fullscreen-title/popup__fullscreen-title.css);
+@import url(../blocks/popup/_bacground_black/popup_background_black.css);
 
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/__title/form__title.css);

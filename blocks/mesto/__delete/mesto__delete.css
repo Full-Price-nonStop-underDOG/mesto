@@ -10,3 +10,8 @@
     top: 20px;
     
 }
+
+.mesto__delete:hover{
+    opacity: .6;
+    cursor: pointer;
+}
