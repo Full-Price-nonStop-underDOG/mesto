@@ -1,4 +1,4 @@
-const formEditProfile = document.querySelector('.form');
+const formEditProfile = document.querySelector('#form-profile');
 const formNewCard = document.querySelector('#form__add');
 const imagePopup = document.querySelector('.popup_img');
 // Переменные для всех трех попапов 
@@ -23,10 +23,9 @@ const buttonCloseAdd = document.querySelector('#popup__close');
 
 const userTemplate = document.querySelector('#mesto').content;
 const newMesto = document.querySelector('.mesta');
-const popupClose = imagePopup.querySelector('.popup__close')
+const fullscreenClose = imagePopup.querySelector('.popup__close')
 
-const massiveImage = document.querySelector('.popup__fullscreen-image');
-const massiveTitle = document.querySelector('.popup__fullscreen-title');
+
 const fullscreenImage = document.querySelector('.popup__fullscreen-image');
 const fullscreenTitle = document.querySelector('.popup__fullscreen-title');
 
@@ -86,12 +85,12 @@ function addCard(evt) {
   tagInput.value = '';
 }
 
-formEditProfile.addEventListener('submit', profileNewInfo);
+formEditProfile.addEventListener('submit', handleProfileInfo);
 formNewCard.addEventListener('submit', addCard);
 
 
 
-function profileNewInfo(evt) {
+function handleProfileInfo(evt) {
   evt.preventDefault();
 
   newName.textContent = nameInput.value;
@@ -100,7 +99,7 @@ function profileNewInfo(evt) {
 
 }
 
-popupClose.addEventListener('click', () => {
+fullscreenClose.addEventListener('click', () => {
   closePopup(imagePopup);
 
 });
