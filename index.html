@@ -48,36 +48,46 @@
     </template>
 
     <div class="popup " id="popup_type_edit">
-
+       
         <div class="popup__container">
 
-
-            <form class="form" id="form-profile" name="Information">
+            
+            <form class="form" id="form-profile" name="Information" novalidate>
                 <h2 class="form__title">Редактировать профиль</h2>
-
-                <input value="" placeholder="Имя" minlength="4" maxlength="40"
-                    class="form__field form__text form__field_text_name" name="Profile-name">
-                <input value="" placeholder="О себе" minlength="4" maxlength="200"
-                    class="form__field form__text form__field_text_job" name="Profile-job">
+                   
+                    <input value="" placeholder="Имя" minlength="2" maxlength="40"
+                    class="form__field form__text form__field_text_name" id="name-input" name="Profile-name" required>
+                    <span class="form__field-error_active name-input-error">Текст должен быть не короче 2 симв. Длина текста сейчас: 1 символ.</span>
+                   
+                   
+                    <input value="" placeholder="О себе" minlength="4" maxlength="200"
+                    class="form__field form__text form__field_text_job" id="job-input" name="Profile-job">
+                    <span class="form__field-error_active form__field-error job-input-error">Расскажите о себе</span>
+               
                 <button class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
             </form>
             <button class="popup__close popup__close_profile" type="button" aria-label="Закрыть"></button>
+        
 
+        
         </div>
-
     </div>
     <div class="popup" id="popup_type_new-card">
 
         <div class="popup__container">
 
 
-            <form class="form" name="Information" id="form__add">
+            <form class="form" name="Information" id="form__add" novalidate>
                 <h2 class="form__title">Новое место</h2>
 
                 <input value="" minlength="4" maxlength="40" class="form__field form__text" id="form__field_card_text"
                     name="Profile-name" placeholder="Название">
+                    <span class="form__field_card_text-error form__field-error_active text-input-error">Текст должен быть не короче 2 симв. Длина текста сейчас: 1 символ.</span>
+
                 <input value="" minlength="4" maxlength="200" class="form__field form__text" id="form__field_card_image"
                     name="Profile-job" placeholder="Ссылка на картинку">
+                    <span class="form__field_card_image-error form__field-error_active image-input-error">Введите URl</span>
+
                 <button class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
             </form>
             <button class="popup__close" id="popup__close" type="button" aria-label="Закрыть"></button>

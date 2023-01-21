@@ -5,6 +5,10 @@
     background-color: #FFFFFF;
     margin: auto;
     width: 100%;
+   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     border-radius: 10px;
     z-index: 2;

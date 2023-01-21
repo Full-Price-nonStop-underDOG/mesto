@@ -2,7 +2,9 @@ const formEditProfile = document.querySelector('#form-profile');
 const formNewCard = document.querySelector('#form__add');
 const imagePopup = document.querySelector('.popup_img');
 // Переменные для всех трех попапов 
+const formInput = formEditProfile.querySelector('.form__field');
 
+const bigImageCloserEvent = document.querySelector('.popup__container-img');
 const buttonEdit = document.querySelector('.profile__button-edit');
 const buttonAdd = document.querySelector('.profile__button-add');
 const profilePopup = document.querySelector('#popup_type_edit');
@@ -12,9 +14,6 @@ const nameInput = document.querySelector('.form__field_text_name');
 const jobInput = document.querySelector('.form__field_text_job');
 const tagInput = document.querySelector('#form__field_card_text');
 const imgInput = document.querySelector('#form__field_card_image');
-
-
-
 
 const newName = document.querySelector('.profile__name');
 const newJob = document.querySelector('.profile__job');
@@ -31,6 +30,35 @@ const fullscreenTitle = document.querySelector('.popup__fullscreen-title');
 
 
 
+
+
+const initialCards = [{
+  name: 'Архыз',
+  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+},
+{
+  name: 'Челябинская область',
+  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+},
+{
+  name: 'Иваново',
+  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+},
+{
+  name: 'Камчатка',
+  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+},
+{
+  name: 'Холмогорский район',
+  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+},
+{
+  name: 'Байкал',
+  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+}
+];
+
+
 function openPopup(popup) {
   popup.classList.add('popup_open')
 }
@@ -38,6 +66,9 @@ function openPopup(popup) {
 function closePopup(popup) {
   popup.classList.remove('popup_open')
 }
+
+
+
 
 
 
@@ -89,7 +120,6 @@ formEditProfile.addEventListener('submit', handleProfileInfo);
 formNewCard.addEventListener('submit', addCard);
 
 
-
 function handleProfileInfo(evt) {
   evt.preventDefault();
 
@@ -105,7 +135,6 @@ fullscreenClose.addEventListener('click', () => {
 });
 
 
-
 buttonEdit.addEventListener('click', () => {
   nameInput.value = newName.textContent;
   jobInput.value = newJob.textContent;
@@ -119,9 +148,6 @@ buttonAdd.addEventListener('click', () => {
 });
 
 
-
-
-
 profileButtonClose.addEventListener('click', () => {
   closePopup(profilePopup)
 });
@@ -133,31 +159,6 @@ buttonCloseAdd.addEventListener('click', () => {
 
 
 
-const initialCards = [{
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
 
 
 function addMesta(initialCards) {
@@ -167,6 +168,122 @@ function addMesta(initialCards) {
 
 addMesta(initialCards);
 
+
+
+
+
 function deleteCard(event) {
   event.target.closest('.mesto').remove();
+}
+
+
+
+
+
+
+
+
+const showInputError = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add('form__field_type_error');
+  errorElement.textContent = errorMessage;
+  errorElement.style.opacity = "1";
+};
+
+const hideInputError = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove('form__field_type_error');
+  errorElement.style.opacity = "0";
+  errorElement.textContent = '';
+};
+
+const checkInputValidity = (formElement, inputElement) => {
+  if ( !isValidURL(inputElement.textContent)) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else if(!inputElement.validity.valid){
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+};
+
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll('.form__field'));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(formElement, inputElement);
+    });
+  });
+};
+
+function enableValidation(){
+  const formList = Array.from(document.querySelectorAll('.form'));
+  
+  formList.forEach((formElement) => {
+  formElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    });
+
+      setEventListeners(formElement);
+  });
+}
+
+enableValidation();
+
+
+
+
+
+
+// Add a click event listener to the document
+profilePopup.addEventListener("click", function(event) {
+  // Check if the target of the click event is the form or a child of the form
+  if (!formEditProfile.contains(event.target)) {
+    // Hide the form
+    closePopup(profilePopup)
+  }
+});
+
+cardCreatePopup.addEventListener("click", function(event) {
+  
+  if (!formNewCard.contains(event.target)) {
+    // Hide the form
+    closePopup(cardCreatePopup)
+  }
+});
+
+imagePopup.addEventListener("click", function(event) {
+  
+  if (!bigImageCloserEvent.contains(event.target)) {
+    // Hide the form
+    closePopup(imagePopup)
+  }
+});
+
+document.addEventListener("keydown", function(event) {
+  
+  if (event.keyCode == 27) {
+    closePopup(profilePopup);
+    closePopup(cardCreatePopup);
+    closePopup(imagePopup)
+  }
+});
+
+function isValidURL(str) {
+  const pattern = new RegExp(
+    "^(https?:\\/\\/)?" + 
+    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + 
+    "((\\d{1,3}\\.){3}\\d{1,3}))" + 
+    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + 
+    "(\\?[;&a-z\\d%_.~+=-]*)?" + 
+    "(\\#[-a-z\\d_]*)?$",
+    "i"
+  ); 
+  return !!pattern.test(str);
+}
+
+if (isValidURL("https://www.example.com")) {
+  console.log("valid URL");
+} else {
+  console.log("invalid URL");
 }

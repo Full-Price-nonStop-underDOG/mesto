@@ -1,0 +1,12 @@
+.form__field-error_active {
+    display: block;
+    color: red;
+    font-size: 12px;
+    line-height: 15px;
+    margin: 0 auto 15px;
+    max-width: 358px;
+    min-height: 28px;
+    opacity: 0;
+   
+    width: 100%;
+}
