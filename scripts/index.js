@@ -12,8 +12,8 @@ const cardCreatePopup = document.querySelector('#popup_type_new-card');
 
 const nameInput = document.querySelector('.form__field_text_name');
 const jobInput = document.querySelector('.form__field_text_job');
-const tagInput = document.querySelector('#form__field_card_text');
-const imgInput = document.querySelector('#form__field_card_image');
+const tagInput = document.querySelector('#form__field-card-text');
+const imgInput = document.querySelector('#form__field-card-image');
 
 const newName = document.querySelector('.profile__name');
 const newJob = document.querySelector('.profile__job');
