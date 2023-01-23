@@ -110,6 +110,7 @@ function addCard(evt) {
     name: textValue,
     link: imageValue
   });
+  
   newMesto.prepend(element);
   closePopup(cardCreatePopup);
   imgInput.value = '';
@@ -198,12 +199,14 @@ const hideInputError = (formElement, inputElement) => {
 };
 
 const checkInputValidity = (formElement, inputElement) => {
-  if ( !isValidURL(inputElement.textContent)) {
+  if (!inputElement.validity.valid ){
     showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else if(!inputElement.validity.valid){
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    profilePopup.querySelector(".form__button").disabled = true; 
+    cardCreatePopup.querySelector(".form__button").disabled = true;
   } else {
     hideInputError(formElement, inputElement);
+    profilePopup.querySelector(".form__button").disabled = false; 
+    cardCreatePopup.querySelector(".form__button").disabled = false;
   }
 };
 
