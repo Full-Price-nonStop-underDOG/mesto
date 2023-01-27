@@ -28,35 +28,11 @@ const fullscreenClose = imagePopup.querySelector('.popup__close')
 const fullscreenImage = document.querySelector('.popup__fullscreen-image');
 const fullscreenTitle = document.querySelector('.popup__fullscreen-title');
 
+const keyCodeEsc = 27;
 
 
 
 
-const initialCards = [{
-  name: 'Архыз',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-},
-{
-  name: 'Челябинская область',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-},
-{
-  name: 'Иваново',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-},
-{
-  name: 'Камчатка',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-},
-{
-  name: 'Холмогорский район',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-},
-{
-  name: 'Байкал',
-  link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-}
-];
 
 
 function openPopup(popup) {
@@ -140,21 +116,24 @@ buttonEdit.addEventListener('click', () => {
   nameInput.value = newName.textContent;
   jobInput.value = newJob.textContent;
   openPopup(profilePopup);
+  document.addEventListener('keydown', handleEscClose);
 });
 
 buttonAdd.addEventListener('click', () => {
 
   openPopup(cardCreatePopup);
-
+  document.addEventListener('keydown', handleEscClose);
 });
 
 
 profileButtonClose.addEventListener('click', () => {
-  closePopup(profilePopup)
+  closePopup(profilePopup);
+  document.removeEventListener('keydown', handleEscClose)
 });
 
 buttonCloseAdd.addEventListener('click', () => {
-  closePopup(cardCreatePopup)
+  closePopup(cardCreatePopup);
+  document.removeEventListener('keydown', handleEscClose)
 });
 
 
@@ -162,12 +141,18 @@ buttonCloseAdd.addEventListener('click', () => {
 
 
 
-function addMesta(initialCards) {
+
+import { initialCards } from "./constants";
+
+
+
+
+function creatingFirstCards(initialCards) {
 
   initialCards.forEach(item => newMesto.append(createCard(item)));
 }
 
-addMesta(initialCards);
+creatingFirstCards(initialCards);
 
 
 
@@ -263,14 +248,18 @@ imagePopup.addEventListener("click", function(event) {
   }
 });
 
-document.addEventListener("keydown", function(event) {
+function handleEscClose(event){
   
-  if (event.keyCode == 27) {
-    closePopup(profilePopup);
-    closePopup(cardCreatePopup);
-    closePopup(imagePopup)
-  }
-});
+  
+    if (event.keyCode == keyCodeEsc) {
+      closePopup(profilePopup);
+      closePopup(cardCreatePopup);
+      closePopup(imagePopup);
+    }
+  
+}
+
+
 
 function isValidURL(str) {
   const pattern = new RegExp(
@@ -285,8 +274,4 @@ function isValidURL(str) {
   return !!pattern.test(str);
 }
 
-if (isValidURL("https://www.example.com")) {
-  console.log("valid URL");
-} else {
-  console.log("invalid URL");
-}
+
