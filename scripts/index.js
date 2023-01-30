@@ -35,8 +35,10 @@ const keyCodeEsc = 27;
 
 
 
+
 function openPopup(popup) {
   popup.classList.add('popup_open')
+  popup.querySelector(".form__button").disabled = true; 
 }
 
 function closePopup(popup) {
@@ -142,9 +144,10 @@ buttonCloseAdd.addEventListener('click', () => {
 
 
 
-import { initialCards } from "./constants";
 
 
+
+import { initialCards } from './constants.js';
 
 
 function creatingFirstCards(initialCards) {
@@ -171,52 +174,45 @@ function deleteCard(event) {
 
 const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  const button = formElement.querySelector('.form__button');
+  button.classList.add('form__button_disabled');
   inputElement.classList.add('form__field_type_error');
   errorElement.textContent = errorMessage;
-  errorElement.style.opacity = "1";
+  errorElement.classList.add('form__field-error__opacity');
+  
 };
 
 const hideInputError = (formElement, inputElement) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  const button = formElement.querySelector('.form__button');
+  button.classList.remove('form__button_disabled');
   inputElement.classList.remove('form__field_type_error');
-  errorElement.style.opacity = "0";
+  errorElement.classList.remove('form__field-error__opacity');
   errorElement.textContent = '';
 };
 
-const checkInputValidity = (formElement, inputElement) => {
+ export const checkInputValidity = (formElement, inputElement) => {
+  let isValid = true;
   if (!inputElement.validity.valid ){
     showInputError(formElement, inputElement, inputElement.validationMessage);
-    profilePopup.querySelector(".form__button").disabled = true; 
-    cardCreatePopup.querySelector(".form__button").disabled = true;
+    isValid = false;
+    
   } else {
     hideInputError(formElement, inputElement);
-    profilePopup.querySelector(".form__button").disabled = false; 
-    cardCreatePopup.querySelector(".form__button").disabled = false;
+    profilePopup.querySelector(".form__button").disabled = !isValid; 
+    cardCreatePopup.querySelector(".form__button").disabled = !isValid;
   }
 };
 
-const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll('.form__field'));
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement);
-    });
-  });
-};
 
-function enableValidation(){
-  const formList = Array.from(document.querySelectorAll('.form'));
-  
-  formList.forEach((formElement) => {
-  formElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    });
 
-      setEventListeners(formElement);
-  });
-}
 
-enableValidation();
+
+
+
+
+
+
 
 
 
@@ -252,9 +248,9 @@ function handleEscClose(event){
   
   
     if (event.keyCode == keyCodeEsc) {
-      closePopup(profilePopup);
-      closePopup(cardCreatePopup);
-      closePopup(imagePopup);
+      const popupActive = document.querySelector('.popup_open');
+      closePopup(popupActive);
+      
     }
   
 }
