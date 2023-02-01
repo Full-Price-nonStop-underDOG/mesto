@@ -30,15 +30,18 @@ const fullscreenTitle = document.querySelector('.popup__fullscreen-title');
 
 const keyCodeEsc = 27;
 
-
+const disablecButtonAdd = formNewCard.querySelector(".form__button");
 
 
 
 
 
 function openPopup(popup) {
-  popup.classList.add('popup_open')
-  popup.querySelector(".form__button").disabled = true; 
+  popup.classList.add('popup_open');
+  disablecButtonAdd.disabled = true; 
+  disablecButtonAdd.classList.add('form__button_disabled-add'); 
+  formEditProfile.querySelector(".form__button").disabled = true;
+
 }
 
 function closePopup(popup) {
@@ -68,6 +71,7 @@ function createCard(item) {
   buttonDelete.addEventListener('click', deleteCard);
   cardImage.addEventListener('click', () => {
     openPopup(imagePopup);
+    document.addEventListener('keydown', handleEscClose);
     fullscreenImage.src = item.link;
     fullscreenImage.alt = item.name;
     fullscreenTitle.textContent = item.name;
@@ -172,37 +176,8 @@ function deleteCard(event) {
 
 
 
-const showInputError = (formElement, inputElement, errorMessage) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  const button = formElement.querySelector('.form__button');
-  button.classList.add('form__button_disabled');
-  inputElement.classList.add('form__field_type_error');
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add('form__field-error__opacity');
+
   
-};
-
-const hideInputError = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  const button = formElement.querySelector('.form__button');
-  button.classList.remove('form__button_disabled');
-  inputElement.classList.remove('form__field_type_error');
-  errorElement.classList.remove('form__field-error__opacity');
-  errorElement.textContent = '';
-};
-
- export const checkInputValidity = (formElement, inputElement) => {
-  let isValid = true;
-  if (!inputElement.validity.valid ){
-    showInputError(formElement, inputElement, inputElement.validationMessage);
-    isValid = false;
-    
-  } else {
-    hideInputError(formElement, inputElement);
-    profilePopup.querySelector(".form__button").disabled = !isValid; 
-    cardCreatePopup.querySelector(".form__button").disabled = !isValid;
-  }
-};
 
 
 
@@ -240,7 +215,8 @@ imagePopup.addEventListener("click", function(event) {
   
   if (!bigImageCloserEvent.contains(event.target)) {
     // Hide the form
-    closePopup(imagePopup)
+    closePopup(imagePopup);
+    
   }
 });
 

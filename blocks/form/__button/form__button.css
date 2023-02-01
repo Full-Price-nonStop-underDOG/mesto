@@ -13,6 +13,7 @@
     line-height: 22px;
     padding: 0;
     cursor: pointer;
+    
 }
 
 .form__button:hover{
@@ -21,6 +22,11 @@
 
 .form__button_disabled{
     cursor: default;
+   
+}
+
+.form__button_disabled-add{
+    background: #E5E5E5;
 }
 
 @media screen and (max-width:770px) {
