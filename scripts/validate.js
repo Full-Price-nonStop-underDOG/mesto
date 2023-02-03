@@ -41,13 +41,16 @@ const checkInputValidity = (formElement, inputElement) => {
     if (!inputElement.validity.valid) {
         showInputError(formElement, inputElement, inputElement.validationMessage, config);
         isValid = false;
-      
+        
 
     } else if (!formElement.checkValidity()) {
         hideInputError(formElement, inputElement, config);
         profilePopup.querySelector(config.buttonEl).disabled = !isValid;
         cardCreatePopup.querySelector(config.buttonEl).disabled = !isValid;
+        disablecButtonAdd.classList.add('form__button_disabled-add');
         
+    } else {
+        disablecButtonAdd.classList.remove('form__button_disabled-add');
     }
 
 
