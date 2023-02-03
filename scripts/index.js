@@ -179,21 +179,6 @@ function deleteCard(event) {
 
   
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Add a click event listener to the document
 profilePopup.addEventListener("click", function(event) {
   // Check if the target of the click event is the form or a child of the form
