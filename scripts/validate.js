@@ -2,7 +2,7 @@ const formNewCard = document.querySelector('#form__add');
 const profilePopup = document.querySelector('#popup_type_edit');
 const cardCreatePopup = document.querySelector('#popup_type_new-card');
 const disablecButtonAdd = formNewCard.querySelector(".form__button");
-
+const disablecButtonProfile = profilePopup.querySelector(".form__button");
 
 const config = {
     formSelector: '.form',
@@ -17,7 +17,7 @@ const config = {
 const showInputError = (formElement, inputElement, errorMessage, config) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     const button = formElement.querySelector(config.buttonEl);
-    disablecButtonAdd.classList.add('form__button_disabled-add');
+    button.classList.add('form__button_disabled-add');
     button.classList.add(config.inactiveButton);
     inputElement.classList.add(config.errorField);
     errorElement.textContent = errorMessage;
@@ -28,7 +28,7 @@ const showInputError = (formElement, inputElement, errorMessage, config) => {
 const hideInputError = (formElement, inputElement, config) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     const button = formElement.querySelector(config.buttonEl);
-    disablecButtonAdd.classList.remove('form__button_disabled-add');
+    button.classList.remove('form__button_disabled-add');
     button.classList.remove(config.inactiveButton);
     inputElement.classList.remove(config.errorField);
     errorElement.classList.remove('form__field-error__opacity');
@@ -48,9 +48,11 @@ const checkInputValidity = (formElement, inputElement) => {
         profilePopup.querySelector(config.buttonEl).disabled = !isValid;
         cardCreatePopup.querySelector(config.buttonEl).disabled = !isValid;
         disablecButtonAdd.classList.add('form__button_disabled-add');
+        disablecButtonProfile.classList.add('form__button_disabled-add');
         
     } else {
         disablecButtonAdd.classList.remove('form__button_disabled-add');
+        disablecButtonProfile.classList.remove('form__button_disabled-add');
     }
 
 
