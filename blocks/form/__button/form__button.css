@@ -26,7 +26,12 @@
 }
 
 .form__button_disabled-add{
-    background: #E5E5E5;
+    background-color: transparent;
+    border: 1px solid #000;
+    box-sizing: content-box;
+    color: #000;
+    opacity: .2;
+    pointer-events: none;
 }
 
 @media screen and (max-width:770px) {

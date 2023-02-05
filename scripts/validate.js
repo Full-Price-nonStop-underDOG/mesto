@@ -7,31 +7,33 @@ const disablecButtonProfile = profilePopup.querySelector(".form__button");
 const config = {
     formSelector: '.form',
     formFields: '.form__field',
-    buttonEl: '.form__button',
-    inactiveButton: '.form__button_disabled',
-    errorField: '.form__field_type_error'
+    submitButtonSelector: '.form__button',
+    inactiveButtonClass: '.form__button_disabled',
+    errorField: '.form__field_type_error',
+    disabletButtonClass: 'form__button_disabled-add',
+    errorOpacity: 'form__field-error__opacity'
 
 
 }
 
 const showInputError = (formElement, inputElement, errorMessage, config) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    const button = formElement.querySelector(config.buttonEl);
-    button.classList.add('form__button_disabled-add');
-    button.classList.add(config.inactiveButton);
+    const button = formElement.querySelector(config.submitButtonSelector);
+    button.classList.add(config.disabletButtonClass);
+    button.classList.add(config.inactiveButtonClass);
     inputElement.classList.add(config.errorField);
     errorElement.textContent = errorMessage;
-    errorElement.classList.add('form__field-error__opacity');
+    errorElement.classList.add(config.errorOpacity);
 
 };
 
 const hideInputError = (formElement, inputElement, config) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    const button = formElement.querySelector(config.buttonEl);
-    button.classList.remove('form__button_disabled-add');
-    button.classList.remove(config.inactiveButton);
+    const button = formElement.querySelector(config.submitButtonSelector);
+    button.classList.remove(config.disabletButtonClass);
+    button.classList.remove(config.inactiveButtonClass);
     inputElement.classList.remove(config.errorField);
-    errorElement.classList.remove('form__field-error__opacity');
+    errorElement.classList.remove(config.errorOpacity);
     errorElement.textContent = '';
 };
 
@@ -45,14 +47,14 @@ const checkInputValidity = (formElement, inputElement) => {
 
     } else if (!formElement.checkValidity()) {
         hideInputError(formElement, inputElement, config);
-        profilePopup.querySelector(config.buttonEl).disabled = !isValid;
-        cardCreatePopup.querySelector(config.buttonEl).disabled = !isValid;
-        disablecButtonAdd.classList.add('form__button_disabled-add');
-        disablecButtonProfile.classList.add('form__button_disabled-add');
+        profilePopup.querySelector(config.submitButtonSelector).disabled = !isValid;
+        cardCreatePopup.querySelector(config.submitButtonSelector).disabled = !isValid;
+        disablecButtonAdd.classList.add(config.disabletButtonClass);
+        disablecButtonProfile.classList.add(config.disabletButtonClass);
         
     } else {
-        disablecButtonAdd.classList.remove('form__button_disabled-add');
-        disablecButtonProfile.classList.remove('form__button_disabled-add');
+        disablecButtonAdd.classList.remove(config.disabletButtonClass);
+        disablecButtonProfile.classList.remove(config.disabletButtonClass);
     }
 
 
@@ -97,12 +99,12 @@ const hasInvalidInput = (inputList) => {
 };
 
 const toggleButtonState = (inputList,formElement, config) => {
-    const button = formElement.querySelector(config.buttonEl);
+    const button = formElement.querySelector(config.submitButtonSelector);
     if (hasInvalidInput(inputList)) {
-        button.classList.add(config.inactiveButton);
+        button.classList.add(config.inactiveButtonClass);
         button.setAttribute('disabled', true);
     } else {
-        button.classList.remove(config.inactiveButtonClass);
+        button.classList.remove(config.inactiveButtonClassClass);
         button.removeAttribute('disabled');
     }
 };
