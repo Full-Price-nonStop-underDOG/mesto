@@ -8,10 +8,10 @@ const config = {
     formSelector: '.form',
     formFields: '.form__field',
     submitButtonSelector: '.form__button',
-    inactiveButtonClass: '.form__button_disabled',
+    inactiveButtonClass: 'form__button_disabled',
     errorField: '.form__field_type_error',
-    disabletButtonClass: 'form__button_disabled-add',
-    errorOpacity: 'form__field-error__opacity'
+    
+    errorOpacity: 'form__field-error_visible'
 
 
 }
@@ -19,7 +19,7 @@ const config = {
 const showInputError = (formElement, inputElement, errorMessage, config) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     const button = formElement.querySelector(config.submitButtonSelector);
-    button.classList.add(config.disabletButtonClass);
+    
     button.classList.add(config.inactiveButtonClass);
     inputElement.classList.add(config.errorField);
     errorElement.textContent = errorMessage;
@@ -30,7 +30,7 @@ const showInputError = (formElement, inputElement, errorMessage, config) => {
 const hideInputError = (formElement, inputElement, config) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     const button = formElement.querySelector(config.submitButtonSelector);
-    button.classList.remove(config.disabletButtonClass);
+    
     button.classList.remove(config.inactiveButtonClass);
     inputElement.classList.remove(config.errorField);
     errorElement.classList.remove(config.errorOpacity);
@@ -47,14 +47,13 @@ const checkInputValidity = (formElement, inputElement) => {
 
     } else if (!formElement.checkValidity()) {
         hideInputError(formElement, inputElement, config);
-        profilePopup.querySelector(config.submitButtonSelector).disabled = !isValid;
-        cardCreatePopup.querySelector(config.submitButtonSelector).disabled = !isValid;
-        disablecButtonAdd.classList.add(config.disabletButtonClass);
-        disablecButtonProfile.classList.add(config.disabletButtonClass);
+        formElement.querySelector(config.submitButtonSelector).disabled = !isValid;
+        formElement.querySelector(config.submitButtonSelector).classList.add(config.inactiveButtonClass);
+        
         
     } else {
-        disablecButtonAdd.classList.remove(config.disabletButtonClass);
-        disablecButtonProfile.classList.remove(config.disabletButtonClass);
+        formElement.querySelector(config.submitButtonSelector).classList.remove(config.inactiveButtonClass);
+        
     }
 
 
@@ -64,7 +63,7 @@ const checkInputValidity = (formElement, inputElement) => {
 
 
 const setEventListeners = (formElement) => {
-
+   
     const inputList = Array.from(formElement.querySelectorAll(config.formFields));
     inputList.forEach((inputElement) => {
         inputElement.addEventListener('input', function () {
@@ -78,11 +77,14 @@ const setEventListeners = (formElement) => {
 
 function enableValidation(config) {
     const formList = Array.from(document.querySelectorAll(config.formSelector));
-
+    
     formList.forEach((formElement) => {
+        formElement.querySelector(config.submitButtonSelector).classList.add(config.inactiveButtonClass);
         formElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
+            formElement.querySelector(config.submitButtonSelector).classList.add(config.inactiveButtonClass);
         });
+        
 
         setEventListeners(formElement);
     });
@@ -104,7 +106,7 @@ const toggleButtonState = (inputList,formElement, config) => {
         button.classList.add(config.inactiveButtonClass);
         button.setAttribute('disabled', true);
     } else {
-        button.classList.remove(config.inactiveButtonClassClass);
+        button.classList.remove(config.inactiveButtonClass);
         button.removeAttribute('disabled');
     }
 };

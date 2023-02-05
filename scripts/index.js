@@ -30,18 +30,13 @@ const fullscreenTitle = document.querySelector('.popup__fullscreen-title');
 
 const keyCodeEsc = 27;
 
-const disablecButtonAdd = formNewCard.querySelector(".form__button");
-const disablecButtonProfile = profilePopup.querySelector(".form__button");
+
 
 
 
 function openPopup(popup) {
   popup.classList.add('popup_open');
-  disablecButtonAdd.disabled = true; 
-  disablecButtonProfile.disabled = true;
-  disablecButtonProfile.classList.add('form__button_disabled-add'); 
-  disablecButtonAdd.classList.add('form__button_disabled-add');
-  disablecButtonProfile.disabled = true;
+  
 
 }
 

@@ -6,6 +6,7 @@
     background-color: #000000;
     border-radius: 2px;
     color: #FFFFFF;
+    
     font-family: 'Inter', 'Arial', sans-serif;
     font-style: normal;
     font-weight: 400;
@@ -22,10 +23,6 @@
 
 .form__button_disabled{
     cursor: default;
-   
-}
-
-.form__button_disabled-add{
     background-color: transparent;
     border: 1px solid #000;
     box-sizing: content-box;
@@ -33,6 +30,8 @@
     opacity: .2;
     pointer-events: none;
 }
+
+
 
 @media screen and (max-width:770px) {
 

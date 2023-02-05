@@ -11,7 +11,7 @@
     width: 100%;
 }
 
-.form__field-error__opacity{
+.form__field-error__visible{
  opacity: 1;
 }
 
