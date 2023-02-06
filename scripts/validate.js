@@ -27,7 +27,7 @@ const showInputError = (formElement, inputElement, errorMessage, config) => {
 
 };
 
-const hideInputError = (formElement, inputElement, config) => {
+  const hideInputError = (formElement, inputElement, config) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     const button = formElement.querySelector(config.submitButtonSelector);
     
@@ -40,6 +40,7 @@ const hideInputError = (formElement, inputElement, config) => {
 
 const checkInputValidity = (formElement, inputElement) => {
     let isValid = true;
+    
     if (!inputElement.validity.valid) {
         showInputError(formElement, inputElement, inputElement.validationMessage, config);
         isValid = false;
@@ -79,15 +80,15 @@ function enableValidation(config) {
     const formList = Array.from(document.querySelectorAll(config.formSelector));
     
     formList.forEach((formElement) => {
-       
+        
         disableButton(formElement);
         formElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
-          
+            
             disableButton(formElement);
         });
         
-
+      
         setEventListeners(formElement);
     });
 }

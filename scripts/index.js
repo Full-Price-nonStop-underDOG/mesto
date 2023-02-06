@@ -36,12 +36,17 @@ const keyCodeEsc = 27;
 
 function openPopup(popup) {
   popup.classList.add('popup_open');
-  
+  document.addEventListener('keydown', handleEscClose);
 
 }
 
+
+
 function closePopup(popup) {
-  popup.classList.remove('popup_open')
+  popup.classList.remove('popup_open');
+  document.removeEventListener('keydown', handleEscClose);
+  imgInput.value = '';
+  tagInput.value = '';
 }
 
 
@@ -118,24 +123,24 @@ buttonEdit.addEventListener('click', () => {
   nameInput.value = newName.textContent;
   jobInput.value = newJob.textContent;
   openPopup(profilePopup);
-  document.addEventListener('keydown', handleEscClose);
+  
 });
 
 buttonAdd.addEventListener('click', () => {
 
   openPopup(cardCreatePopup);
-  document.addEventListener('keydown', handleEscClose);
+  
 });
 
 
 profileButtonClose.addEventListener('click', () => {
   closePopup(profilePopup);
-  document.removeEventListener('keydown', handleEscClose)
+ 
 });
 
 buttonCloseAdd.addEventListener('click', () => {
   closePopup(cardCreatePopup);
-  document.removeEventListener('keydown', handleEscClose)
+
 });
 
 
