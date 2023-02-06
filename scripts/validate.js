@@ -46,16 +46,13 @@ const checkInputValidity = (formElement, inputElement) => {
         isValid = false;
         
 
-    } else if (!formElement.checkValidity()) {
+    } else  {
         hideInputError(formElement, inputElement, config);
         formElement.querySelector(config.submitButtonSelector).disabled = !isValid;
         disableButton(formElement);
         
         
-    } else {
-        disableButton(formElement);
-        
-    }
+    } 
 
 
 
