@@ -49,9 +49,7 @@
   
   
   
-        this._element.addEventListener('click', () => {
-          this._openPopup(imagePopup);
-        });
+        
   
         buttonLike.addEventListener('click', () => {
           buttonLike.classList.toggle('mesto__like_active');
@@ -69,7 +67,7 @@
         });
         imagePopup.addEventListener("click", function(event) {
     
-          if (!bigImageCloserEvent.contains(event.target)) {
+          if (!bigImageCloserEvent.contains(event.target) && !buttonDelete.contains(event.target) && !buttonLike.contains(event.target)) {
             // Hide the form
             closePopup(imagePopup);
             
