@@ -32,12 +32,12 @@ export class Card {
     generateCard() {
         this._element = this._getTemplate();
         const createTitle = this._element.querySelector('.mesto__title');
-        const cardImage = this._element.querySelector('.mesto__img');
+        this._cardImage = this._element.querySelector('.mesto__img');
         this._setEventListeners();
 
         createTitle.textContent = this._text;
-        cardImage.src = this._image;
-        cardImage.alt = this._text;
+        this._cardImage.src = this._image;
+        this._cardImage.alt = this._text;
 
 
         return this._element;
@@ -54,13 +54,13 @@ export class Card {
     _setEventListeners() {
         const buttonLike = this._element.querySelector('.mesto__like');
         const buttonDelete = this._element.querySelector('.mesto__delete');
-        const cardImage = this._element.querySelector('.mesto__img');
+        
 
         buttonLike.addEventListener('click', this._likeButton);
 
         buttonDelete.addEventListener('click', this._deleteCard);
 
-        cardImage.addEventListener('click', () => {
+        this._cardImage.addEventListener('click', () => {
             openPopup(imagePopup);
             
             fullscreenImage.src = this._image;
