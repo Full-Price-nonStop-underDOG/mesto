@@ -1,10 +1,10 @@
 const formEditProfile = document.querySelector('#form-profile');
 const formNewCard = document.querySelector('#form__add');
-const imagePopup = document.querySelector('.popup_img');
+ export const imagePopup = document.querySelector('.popup_img');
 // Переменные для всех трех попапов 
 const formInput = formEditProfile.querySelector('.form__field');
 
-const bigImageCloserEvent = document.querySelector('.popup__container-img');
+
 const buttonEdit = document.querySelector('.profile__button-edit');
 const buttonAdd = document.querySelector('.profile__button-add');
 const profilePopup = document.querySelector('#popup_type_edit');
@@ -25,88 +25,12 @@ const newMesto = document.querySelector('.mesta');
 const fullscreenClose = imagePopup.querySelector('.popup__close')
 
 
-const fullscreenImage = document.querySelector('.popup__fullscreen-image');
-const fullscreenTitle = document.querySelector('.popup__fullscreen-title');
+
 
 const keyCodeEsc = 27;
 
 
-class Card{
-  constructor(data, templateSelector, handleEscClose, openPopup){
-      this._templateSelector = templateSelector;
-      this._image = data.link;
-      this._text = data.name;
-      this._openPopup = openPopup;
-      this._handleEscClose = handleEscClose;
-  }
-
-  _getTemplate() {
-      const cardElement = document
-        .querySelector(this._templateSelector)
-        .content
-        .querySelector('.mesto')
-        .cloneNode(true);
-  
-      return cardElement;
-    }
-
-     generateCard() {
-      this._element = this._getTemplate();
-      const createTitle = this._element.querySelector('.mesto__title');
-      const cardImage = this._element.querySelector('.mesto__img');
-      this._setEventListeners();
-  
-      createTitle.textContent = this._text;
-      cardImage.src = this._image;
-      cardImage.alt = this._text;
-
-  
-      return this._element;
-    }
-
-    
-    
-    _setEventListeners() {
-      const buttonLike = this._element.querySelector('.mesto__like');
-      const buttonDelete = this._element.querySelector('.mesto__delete');
-      const cardImage = this._element.querySelector('.mesto__img');
-      
-
-
-
-      this._element.addEventListener('click', () => {
-        this._openPopup(imagePopup);
-      });
-
-      buttonLike.addEventListener('click', () => {
-        buttonLike.classList.toggle('mesto__like_active');
-      });
-
-      buttonDelete.addEventListener('click', deleteCard);
-
-      cardImage.addEventListener('click', () => {
-        this._openPopup(imagePopup);
-        document.addEventListener('keydown', this._handleEscClose);
-        fullscreenImage.src = this._image;
-        fullscreenImage.alt = this._text;
-        fullscreenTitle.textContent = this._text;
-    
-      });
-      imagePopup.addEventListener("click", function(event) {
-  
-        if (!bigImageCloserEvent.contains(event.target)) {
-          // Hide the form
-          closePopup(imagePopup);
-          
-        }
-      });
-
-    }
-
-    
-
-}
-
+import { Card } from './card.js';
 
 
 
@@ -119,7 +43,7 @@ function openPopup(popup) {
 
 
 
-function closePopup(popup) {
+ export function closePopup(popup) {
   popup.classList.remove('popup_open');
   document.removeEventListener('keydown', handleEscClose);
   imgInput.value = '';
@@ -251,7 +175,7 @@ creatingFirstCards(initialCards);
 
 
 
-function deleteCard(event) {
+ export function deleteCard(event) {
   event.target.closest('.mesto').remove();
 }
 
@@ -282,14 +206,7 @@ cardCreatePopup.addEventListener("click", function(event) {
   }
 });
 
-imagePopup.addEventListener("click", function(event) {
-  
-  if (!bigImageCloserEvent.contains(event.target)) {
-    // Hide the form
-    closePopup(imagePopup);
-    
-  }
-});
+
 
 function handleEscClose(event){
   

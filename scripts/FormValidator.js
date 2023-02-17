@@ -4,6 +4,8 @@ const cardCreatePopup = document.querySelector('#popup_type_new-card');
 const disablecButtonAdd = formNewCard.querySelector(".form__button");
 const disablecButtonProfile = profilePopup.querySelector(".form__button");
 
+
+
 const config = {
     formSelector: '.form',
     formFields: '.form__field',
@@ -23,14 +25,14 @@ class FormValidator {
     }
   
     _showInputError(inputElement, errorMessage) {
-      const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
+      const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
       inputElement.classList.add(this._config.errorField);
       errorElement.textContent = errorMessage;
       errorElement.classList.add(this._config.errorOpacity);
     }
   
     _hideInputError(inputElement) {
-      const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
+      const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
       inputElement.classList.remove(this._config.errorField);
       errorElement.classList.remove(this._config.errorOpacity);
       errorElement.textContent = '';
