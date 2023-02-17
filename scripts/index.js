@@ -31,6 +31,83 @@ const fullscreenTitle = document.querySelector('.popup__fullscreen-title');
 const keyCodeEsc = 27;
 
 
+class Card{
+  constructor(data, templateSelector, handleEscClose, openPopup){
+      this._templateSelector = templateSelector;
+      this._image = data.link;
+      this._text = data.name;
+      this._openPopup = openPopup;
+      this._handleEscClose = handleEscClose;
+  }
+
+  _getTemplate() {
+      const cardElement = document
+        .querySelector(this._templateSelector)
+        .content
+        .querySelector('.mesto')
+        .cloneNode(true);
+  
+      return cardElement;
+    }
+
+     generateCard() {
+      this._element = this._getTemplate();
+      const createTitle = this._element.querySelector('.mesto__title');
+      const cardImage = this._element.querySelector('.mesto__img');
+      this._setEventListeners();
+  
+      createTitle.textContent = this._text;
+      cardImage.src = this._image;
+      cardImage.alt = this._text;
+
+  
+      return this._element;
+    }
+
+    
+    
+    _setEventListeners() {
+      const buttonLike = this._element.querySelector('.mesto__like');
+      const buttonDelete = this._element.querySelector('.mesto__delete');
+      const cardImage = this._element.querySelector('.mesto__img');
+      
+
+
+
+      this._element.addEventListener('click', () => {
+        this._openPopup(imagePopup);
+      });
+
+      buttonLike.addEventListener('click', () => {
+        buttonLike.classList.toggle('mesto__like_active');
+      });
+
+      buttonDelete.addEventListener('click', deleteCard);
+
+      cardImage.addEventListener('click', () => {
+        this._openPopup(imagePopup);
+        document.addEventListener('keydown', this._handleEscClose);
+        fullscreenImage.src = this._image;
+        fullscreenImage.alt = this._text;
+        fullscreenTitle.textContent = this._text;
+    
+      });
+      imagePopup.addEventListener("click", function(event) {
+  
+        if (!bigImageCloserEvent.contains(event.target)) {
+          // Hide the form
+          closePopup(imagePopup);
+          
+        }
+      });
+
+    }
+
+    
+
+}
+
+
 
 
 
@@ -54,33 +131,41 @@ function closePopup(popup) {
 
 
 
-function createCard(item) {
-  const userElement = userTemplate.querySelector('.mesto').cloneNode(true);
-  const buttonLike = userElement.querySelector('.mesto__like');
-  const buttonDelete = userElement.querySelector('.mesto__delete');
-  const cardImage = userElement.querySelector('.mesto__img');
-  const createTitle = userElement.querySelector('.mesto__title');
+// function createCard(item) {
+//   const userElement = userTemplate.querySelector('.mesto').cloneNode(true);
+//   const buttonLike = userElement.querySelector('.mesto__like');
+//   const buttonDelete = userElement.querySelector('.mesto__delete');
+//   const cardImage = userElement.querySelector('.mesto__img');
+//   const createTitle = userElement.querySelector('.mesto__title');
 
 
-  createTitle.textContent = item.name;
-  cardImage.src = item.link;
-  cardImage.alt = item.name;
+//   createTitle.textContent = item.name;
+//   cardImage.src = item.link;
+//   cardImage.alt = item.name;
 
-  buttonLike.addEventListener('click', () => {
-    buttonLike.classList.toggle('mesto__like_active');
-  });
-  buttonDelete.addEventListener('click', deleteCard);
-  cardImage.addEventListener('click', () => {
-    openPopup(imagePopup);
-    document.addEventListener('keydown', handleEscClose);
-    fullscreenImage.src = item.link;
-    fullscreenImage.alt = item.name;
-    fullscreenTitle.textContent = item.name;
+//   buttonLike.addEventListener('click', () => {
+//     buttonLike.classList.toggle('mesto__like_active');
+//   });
+//   buttonDelete.addEventListener('click', deleteCard);
+//   cardImage.addEventListener('click', () => {
+//     openPopup(imagePopup);
+//     document.addEventListener('keydown', handleEscClose);
+//     fullscreenImage.src = item.link;
+//     fullscreenImage.alt = item.name;
+//     fullscreenTitle.textContent = item.name;
 
-  });
+//   });
 
-  return userElement;
-}
+//   return userElement;
+// }
+
+
+function createCard(data ) {
+  const card = new Card(data, '#mesto', handleEscClose, openPopup);
+  const cardElement = card.generateCard();
+  return cardElement;
+  }
+
 
 function addCard(evt) {
   evt.preventDefault();
@@ -157,7 +242,7 @@ import { initialCards } from './constants.js';
 
 function creatingFirstCards(initialCards) {
 
-  initialCards.forEach(item => newMesto.append(createCard(item)));
+  initialCards.forEach(item => newMesto.append(createCard(item, '#mesto', handleEscClose, openPopup )));
 }
 
 creatingFirstCards(initialCards);
@@ -216,6 +301,10 @@ function handleEscClose(event){
     }
   
 }
+
+
+
+
 
 
 
