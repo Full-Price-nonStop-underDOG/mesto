@@ -68,7 +68,8 @@ const keyCodeEsc = 27;
 export function openPopup(popup) {
   popup.classList.add('popup_open');
   document.addEventListener('keydown', handleEscClose);
-
+  formValidator2.resetValidation();
+  formValidator3.resetValidation();
 }
 
 export function closePopup(popup) {
