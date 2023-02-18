@@ -31,11 +31,11 @@ export class Card {
 
     generateCard() {
         this._element = this._getTemplate();
-        const createTitle = this._element.querySelector('.mesto__title');
+        const titleName = this._element.querySelector('.mesto__title');
         this._cardImage = this._element.querySelector('.mesto__img');
         this._setEventListeners();
 
-        createTitle.textContent = this._text;
+        titleName.textContent = this._text;
         this._cardImage.src = this._image;
         this._cardImage.alt = this._text;
 
@@ -52,11 +52,10 @@ export class Card {
     }
 
     _setEventListeners() {
-        const buttonLike = this._element.querySelector('.mesto__like');
+        this._buttonLike = this._element.querySelector('.mesto__like');
         const buttonDelete = this._element.querySelector('.mesto__delete');
-        
 
-        buttonLike.addEventListener('click', this._likeButton);
+        this._buttonLike.addEventListener('click', this._likeButton);
 
         buttonDelete.addEventListener('click', this._deleteCard);
 
@@ -69,7 +68,6 @@ export class Card {
 
         });
         
-
     }
 
 }

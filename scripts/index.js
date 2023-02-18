@@ -14,7 +14,6 @@ const formEditProfile = document.querySelector('#form-profile');
 
 export const imagePopup = document.querySelector('.popup_img');
 // Переменные для всех трех попапов 
-const formInput = formEditProfile.querySelector('.form__field');
 
 const buttonEdit = document.querySelector('.profile__button-edit');
 const buttonAdd = document.querySelector('.profile__button-add');
@@ -29,10 +28,8 @@ const newJob = document.querySelector('.profile__job');
 const profileButtonClose = document.querySelector('.popup__close_profile');
 const buttonCloseAdd = document.querySelector('#popup__close');
 
-const userTemplate = document.querySelector('#mesto').content;
 const cardsContainer = document.querySelector('.mesta');
 const fullscreenClose = imagePopup.querySelector('.popup__close')
-
 
 const formNewCard = document.querySelector('#form__add');
 const profilePopup = document.querySelector('#popup_type_edit');
@@ -59,17 +56,18 @@ const config = {
 
 
 
-const formValidator2 = new FormValidator(config, profilePopup);
-formValidator2.enableValidation();
-const formValidator3 = new FormValidator(config, cardCreatePopup);
-formValidator3.enableValidation();
+const profileValidator = new FormValidator(config, profilePopup);
+profileValidator.enableValidation();
+
+const cardCreateValidator = new FormValidator(config, cardCreatePopup);
+cardCreateValidator.enableValidation();
 const keyCodeEsc = 27;
 
 export function openPopup(popup) {
   popup.classList.add('popup_open');
   document.addEventListener('keydown', handleEscClose);
-  formValidator2.resetValidation();
-  formValidator3.resetValidation();
+  profileValidator.resetValidation();
+  cardCreateValidator.resetValidation();
 }
 
 export function closePopup(popup) {
@@ -107,7 +105,7 @@ export function closePopup(popup) {
 // }
 
 function createCard(data) {
-  const card = new Card(data, '#mesto', handleEscClose, openPopup);
+  const card = new Card(data, '#mesto');
   const cardElement = card.generateCard();
   return cardElement;
 }
@@ -125,8 +123,7 @@ function addCard(evt) {
 
   cardsContainer.prepend(element);
   closePopup(cardCreatePopup);
-  imgInput.value = '';
-  tagInput.value = '';
+  
 }
 
 formEditProfile.addEventListener('submit', handleProfileInfo);
