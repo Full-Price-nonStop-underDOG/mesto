@@ -43,21 +43,23 @@ export class Card {
         return this._element;
     }
 
-    _deleteCard(event) {
-        event.target.closest('.mesto').remove();
+    _deleteCard() {
+        this._element.remove();
     }
 
-    _likeButton(event){
-        event.target.closest('.mesto__like').classList.toggle('mesto__like_active');
+    _likeButton(){
+        this._buttonLike.classList.toggle('mesto__like_active');
     }
+
+    
 
     _setEventListeners() {
         this._buttonLike = this._element.querySelector('.mesto__like');
-        const buttonDelete = this._element.querySelector('.mesto__delete');
+        this._buttonDelete = this._element.querySelector('.mesto__delete');
 
-        this._buttonLike.addEventListener('click', this._likeButton);
+        this._buttonLike.addEventListener('click', this._likeButton.bind(this));
 
-        buttonDelete.addEventListener('click', this._deleteCard);
+        this._buttonDelete.addEventListener('click', this._deleteCard.bind(this));
 
         this._cardImage.addEventListener('click', () => {
             openPopup(imagePopup);
