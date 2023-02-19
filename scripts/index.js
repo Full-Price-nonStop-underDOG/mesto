@@ -66,8 +66,7 @@ const keyCodeEsc = 27;
 export function openPopup(popup) {
   popup.classList.add('popup_open');
   document.addEventListener('keydown', handleEscClose);
-  profileValidator.resetValidation();
-  cardCreateValidator.resetValidation();
+  
 }
 
 export function closePopup(popup) {
@@ -75,7 +74,6 @@ export function closePopup(popup) {
   document.removeEventListener('keydown', handleEscClose);
   
 }
-
 
 // function createCard(item) {
 //   const userElement = userTemplate.querySelector('.mesto').cloneNode(true);
@@ -154,6 +152,7 @@ buttonEdit.addEventListener('click', () => {
   nameInput.value = newName.textContent;
   jobInput.value = newJob.textContent;
   openPopup(profilePopup);
+  profileValidator.resetValidation();
 
 });
 
@@ -161,6 +160,7 @@ buttonAdd.addEventListener('click', () => {
   imgInput.value = '';
   tagInput.value = '';
   openPopup(cardCreatePopup);
+  cardCreateValidator.resetValidation();
 });
 
 profileButtonClose.addEventListener('click', () => {
