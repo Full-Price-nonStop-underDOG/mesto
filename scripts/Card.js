@@ -1,3 +1,7 @@
+import{
+    Popup
+} from './Popup.js';
+
 import {
     imagePopup
 } from "./index.js";

@@ -1,4 +1,24 @@
 import {
+  UserInfo
+} from './UserInfo.js';
+
+import {
+  Popup
+} from './Popup.js';
+
+import {
+  Section
+} from './Section.js';
+
+import {
+  PopupWithImage
+} from './PopupWithImage.js';
+
+import {
+  PopupWithForm
+} from './PopupWithForm.js';
+
+import {
   initialCards
 } from './constants.js';
 
@@ -63,15 +83,18 @@ const cardCreateValidator = new FormValidator(config, cardCreatePopup);
 cardCreateValidator.enableValidation();
 const keyCodeEsc = 27;
 
+const profileOpen = new PopupWithForm('#popup_type_edit', config.submitButtonSelector);
+profileOpen.setEventListeners();
+
 export function openPopup(popup) {
   popup.classList.add('popup_open');
-  document.addEventListener('keydown', handleEscClose);
+  
   
 }
 
 export function closePopup(popup) {
   popup.classList.remove('popup_open');
-  document.removeEventListener('keydown', handleEscClose);
+
   
 }
 
@@ -176,22 +199,30 @@ buttonCloseAdd.addEventListener('click', () => {
 
 function creatingFirstCards(initialCards) {
 
-  initialCards.forEach(item => cardsContainer.append(createCard(item, '#mesto', handleEscClose, openPopup)));
+  initialCards.forEach(item => cardsContainer.append(createCard(item, '#mesto')));
 }
 
 creatingFirstCards(initialCards);
 
 // Add a click event listener to the document
-profilePopup.addEventListener("click", handleCloseByOverlay);
+// profilePopup.addEventListener("click", handleCloseByOverlay);
 
-cardCreatePopup.addEventListener("click", handleCloseByOverlay);
+// cardCreatePopup.addEventListener("click", handleCloseByOverlay);
 
-function handleEscClose(event) {
+// function handleEscClose(event) {
 
-  if (event.keyCode == keyCodeEsc) {
-    const popupActive = document.querySelector('.popup_open');
-    closePopup(popupActive);
+//   if (event.keyCode == keyCodeEsc) {
+//     const popupActive = document.querySelector('.popup_open');
+//     closePopup(popupActive);
 
-  }
+//   }
 
-}
+// }
+
+ 
+
+// const cardCreateOpen = new Popup(popup);
+// cardCreateOpen.setEventListeners();
+
+// const imagePopupOpen = new PopupWithImage(popup);
+// imagePopupOpen.setEventListeners();
