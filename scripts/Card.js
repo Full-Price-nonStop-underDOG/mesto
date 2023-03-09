@@ -2,24 +2,28 @@ import{
     Popup
 } from './Popup.js';
 
+import{
+    PopupWithImage
+} from './PopupWithImage.js';
+
 import {
-    imagePopup
+    imagePopup,
+    handleCardClick
 } from "./index.js";
-import {
-    closePopup,
-    openPopup
-} from "./index.js";
+
+
+
 import {
     fullscreenImage,
     fullscreenTitle,
-    bigImageCloserEvent
 } from './index.js';
 
 export class Card {
-    constructor(data, templateSelector) {
+    constructor(data, templateSelector, handleCardClick) {
         this._templateSelector = templateSelector;
         this._image = data.link;
         this._text = data.name;
+        this._handleCardClick =  handleCardClick;
         
     }
 
@@ -66,14 +70,10 @@ export class Card {
 
         this._buttonDelete.addEventListener('click', this._deleteCard.bind(this));
 
-        this._cardImage.addEventListener('click', () => {
-            openPopup(imagePopup);
-            
-            fullscreenImage.src = this._image;
-            fullscreenImage.alt = this._text;
-            fullscreenTitle.textContent = this._text;
-
-        });
+        this._cardImage.addEventListener('click', () => this._handleCardClick({
+            name: this._text,
+            link: this._image
+          }));
         
     }
 

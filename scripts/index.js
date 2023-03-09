@@ -74,6 +74,16 @@ const config = {
   errorOpacity: 'form__field-error_visible'
 }
 
+const userInfo = new UserInfo({
+  nameSelector: '.profile__name',
+  infoSelector: '.profile__job'
+});
+
+function formValues(value) {
+  userInfo.setUserInfo(value.nameInput, value.jobInput);
+  classEditPopup.close();
+}
+
 
 
 const profileValidator = new FormValidator(config, profilePopup);
@@ -81,22 +91,28 @@ profileValidator.enableValidation();
 
 const cardCreateValidator = new FormValidator(config, cardCreatePopup);
 cardCreateValidator.enableValidation();
-const keyCodeEsc = 27;
+
 
 const profileOpen = new PopupWithForm('#popup_type_edit', config.submitButtonSelector);
 profileOpen.setEventListeners();
 
-export function openPopup(popup) {
-  popup.classList.add('popup_open');
-  
-  
-}
+const cardCreateOpen = new PopupWithForm('#popup_type_new-card', config.submitButtonSelector);
+cardCreateOpen.setEventListeners();
 
-export function closePopup(popup) {
-  popup.classList.remove('popup_open');
+const imagePopupOpen = new PopupWithImage('.popup_img');
+imagePopupOpen.setEventListeners();
 
-  
-}
+// export function openPopup(popup) {
+//   popup.classList.add('popup_open');
+
+
+// }
+
+// export function closePopup(popup) {
+//   popup.classList.remove('popup_open');
+
+
+// }
 
 // function createCard(item) {
 //   const userElement = userTemplate.querySelector('.mesto').cloneNode(true);
@@ -125,9 +141,18 @@ export function closePopup(popup) {
 //   return userElement;
 // }
 
+export function handleCardClick(item) {
+
+  imagePopupOpen.open(item.name, item.link);
+
+}
+
 function createCard(data) {
-  const card = new Card(data, '#mesto');
+  const card = new Card(data, '#mesto', handleCardClick);
   const cardElement = card.generateCard();
+
+
+
   return cardElement;
 }
 
@@ -136,45 +161,51 @@ function addCard(evt) {
 
   const textValue = tagInput.value;
   const imageValue = imgInput.value;
-  
+
   const element = createCard({
     name: textValue,
     link: imageValue
   });
 
   cardsContainer.prepend(element);
-  closePopup(cardCreatePopup);
-  
+  cardCreateOpen.close();
+
 }
 
 formEditProfile.addEventListener('submit', handleProfileInfo);
 formNewCard.addEventListener('submit', addCard);
 
-function handleProfileInfo(evt) {
-  evt.preventDefault();
+function handleProfileInfo(data) {
 
-  newName.textContent = nameInput.value;
-  newJob.textContent = jobInput.value;
-  closePopup(profilePopup);
+  userInfo.setUserInfo({
+    firstName: data.name,
+    info: data.info,
+  });
+  profileOpen.close();
 }
 
-const handleCloseByOverlay = (evt) => {
-  if (evt.target === evt.currentTarget) {
-    closePopup(evt.currentTarget)
-  }
-}
+// const handleCloseByOverlay = (evt) => {
+//   if (evt.target === evt.currentTarget) {
+//     imagePopupOpen(evt.currentTarget)
+//   }
+// }
 
-imagePopup.addEventListener("click", handleCloseByOverlay) 
+imagePopup.addEventListener("click", handleCardClick)
 
 fullscreenClose.addEventListener('click', () => {
-  closePopup(imagePopup);
+  imagePopupOpen.close();
 
 });
 
 buttonEdit.addEventListener('click', () => {
-  nameInput.value = newName.textContent;
-  jobInput.value = newJob.textContent;
-  openPopup(profilePopup);
+  const {
+    name,
+    info
+  } = userInfo.getUserInfo()
+  nameInput.value = name;
+  jobInput.value = info;
+
+  profileOpen.open();
   profileValidator.resetValidation();
 
 });
@@ -182,17 +213,18 @@ buttonEdit.addEventListener('click', () => {
 buttonAdd.addEventListener('click', () => {
   imgInput.value = '';
   tagInput.value = '';
-  openPopup(cardCreatePopup);
+  cardCreateOpen.open();
   cardCreateValidator.resetValidation();
 });
 
 profileButtonClose.addEventListener('click', () => {
-  closePopup(profilePopup);
+
+  profileOpen.close();
 
 });
 
 buttonCloseAdd.addEventListener('click', () => {
-  closePopup(cardCreatePopup);
+  cardCreateOpen.close();
 
 });
 
@@ -218,11 +250,3 @@ creatingFirstCards(initialCards);
 //   }
 
 // }
-
- 
-
-// const cardCreateOpen = new Popup(popup);
-// cardCreateOpen.setEventListeners();
-
-// const imagePopupOpen = new PopupWithImage(popup);
-// imagePopupOpen.setEventListeners();

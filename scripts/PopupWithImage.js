@@ -5,14 +5,19 @@ import{
 export class PopupWithImage extends Popup {
     constructor(popupSelector) {
       super(popupSelector);
-      this._imageElement = this._popupElement.querySelector('.mesto__img');
-      this._captionElement = this._popupElement.querySelector('.mesto__title');
+      this._popupElement = document.querySelector(popupSelector);
+      this._imageElement = this._popupElement.querySelector('.popup__fullscreen-image');
+      this._captionElement = this._popupElement.querySelector('.popup__fullscreen-title');
     }
   
-    open(imageSrc, imageCaption) {
-      this._imageElement.src = imageSrc;
-      this._captionElement.textContent = imageCaption;
+    open(name, link) {
+      this._captionElement.textContent = name;
+      this._imageElement.src = link;
       super.open();
+    }
+
+    close(){
+      super.close();
     }
   }
   

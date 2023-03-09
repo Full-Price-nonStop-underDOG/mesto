@@ -14,11 +14,11 @@ export class PopupWithForm extends Popup {
     }
   
     _getInputValues() {
-      const values = {};
+      this._values = {};
       this._inputList.forEach(input => {
-        values[input.name] = input.value;
+        this._values[input.name] = input.value;
       });
-      return values;
+      return this._values;
     }
   
     setEventListeners() {
@@ -32,6 +32,10 @@ export class PopupWithForm extends Popup {
     close() {
       super.close();
       this._formElement.reset();
+    }
+
+    open(){
+      super.open();
     }
 
   }
