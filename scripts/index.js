@@ -30,6 +30,7 @@ import {
   Card
 } from './Card.js';
 
+
 const formEditProfile = document.querySelector('#form-profile');
 
 export const imagePopup = document.querySelector('.popup_img');
@@ -93,102 +94,69 @@ const cardCreateValidator = new FormValidator(config, cardCreatePopup);
 cardCreateValidator.enableValidation();
 
 
-const profileOpen = new PopupWithForm('#popup_type_edit', config.submitButtonSelector);
+const profileOpen = new PopupWithForm('#popup_type_edit', (data) =>{
+  userInfo.setUserInfo(data);
+  profileOpen.close();
+});
 profileOpen.setEventListeners();
 
-const cardCreateOpen = new PopupWithForm('#popup_type_new-card', config.submitButtonSelector);
-cardCreateOpen.setEventListeners();
+buttonEdit.addEventListener('click', ()=>{
+  const dataUser = userInfo.getUserInfo();
+  nameInput.value = dataUser.name;
+  jobInput.value = dataUser.info;
+  profileValidator.resetValidation();
+  profileOpen.open();
+})
 
 const imagePopupOpen = new PopupWithImage('.popup_img');
 imagePopupOpen.setEventListeners();
 
-// export function openPopup(popup) {
-//   popup.classList.add('popup_open');
-
-
-// }
-
-// export function closePopup(popup) {
-//   popup.classList.remove('popup_open');
-
-
-// }
-
-// function createCard(item) {
-//   const userElement = userTemplate.querySelector('.mesto').cloneNode(true);
-//   const buttonLike = userElement.querySelector('.mesto__like');
-//   const buttonDelete = userElement.querySelector('.mesto__delete');
-//   const cardImage = userElement.querySelector('.mesto__img');
-//   const createTitle = userElement.querySelector('.mesto__title');
-
-//   createTitle.textContent = item.name;
-//   cardImage.src = item.link;
-//   cardImage.alt = item.name;
-
-//   buttonLike.addEventListener('click', () => {
-//     buttonLike.classList.toggle('mesto__like_active');
-//   });
-//   buttonDelete.addEventListener('click', deleteCard);
-//   cardImage.addEventListener('click', () => {
-//     openPopup(imagePopup);
-//     document.addEventListener('keydown', handleEscClose);
-//     fullscreenImage.src = item.link;
-//     fullscreenImage.alt = item.name;
-//     fullscreenTitle.textContent = item.name;
-
-//   });
-
-//   return userElement;
-// }
 
 export function handleCardClick(item) {
 
   imagePopupOpen.open(item.name, item.link);
-
+  profileOpen.close();
 }
 
 function createCard(data) {
   const card = new Card(data, '#mesto', handleCardClick);
   const cardElement = card.generateCard();
-
-
-
   return cardElement;
 }
 
-function addCard(evt) {
-  evt.preventDefault();
-
-  const textValue = tagInput.value;
-  const imageValue = imgInput.value;
-
-  const element = createCard({
-    name: textValue,
-    link: imageValue
-  });
-
-  cardsContainer.prepend(element);
+const cardsSection = new Section(
+  { items: initialCards,
+    renderer: (item) => cardsSection.addItem(createCard(item)),
+  },
+  ".mesta"
+);
+cardsSection.renderItems();
+const cardCreateOpen = new PopupWithForm('#popup_type_new-card', (data) =>{
+  console.log(data);
+  cardsSection.addItem(createCard(data));
   cardCreateOpen.close();
+});
+cardCreateOpen.setEventListeners();
 
-}
 
-formEditProfile.addEventListener('submit', handleProfileInfo);
-formNewCard.addEventListener('submit', addCard);
 
-function handleProfileInfo(data) {
+// function addCard(evt) {
+//   evt.preventDefault();
 
-  userInfo.setUserInfo({
-    firstName: data.name,
-    info: data.info,
-  });
-  profileOpen.close();
-}
+//   const textValue = tagInput.value;
+//   const imageValue = imgInput.value;
 
-// const handleCloseByOverlay = (evt) => {
-//   if (evt.target === evt.currentTarget) {
-//     imagePopupOpen(evt.currentTarget)
-//   }
+//   const element = createCard({
+//     name: textValue,
+//     link: imageValue
+//   });
+
+//   cardsContainer.prepend(element);
+//   cardCreateOpen.close();
+
 // }
+
+//formNewCard.addEventListener('submit', addCard);
 
 imagePopup.addEventListener("click", handleCardClick)
 
@@ -229,12 +197,12 @@ buttonCloseAdd.addEventListener('click', () => {
 });
 
 
-function creatingFirstCards(initialCards) {
+// function creatingFirstCards(initialCards) {
 
-  initialCards.forEach(item => cardsContainer.append(createCard(item, '#mesto')));
-}
+//   initialCards.forEach(item => cardsContainer.append(createCard(item, '#mesto')));
+// }
 
-creatingFirstCards(initialCards);
+// creatingFirstCards(initialCards);
 
 // Add a click event listener to the document
 // profilePopup.addEventListener("click", handleCloseByOverlay);

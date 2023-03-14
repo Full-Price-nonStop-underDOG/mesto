@@ -60,8 +60,6 @@ export class Card {
         this._buttonLike.classList.toggle('mesto__like_active');
     }
 
-    
-
     _setEventListeners() {
         this._buttonLike = this._element.querySelector('.mesto__like');
         this._buttonDelete = this._element.querySelector('.mesto__delete');

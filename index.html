@@ -13,11 +13,11 @@
 
 <body class="page">
     <header class="header header_opacity">
-        <img class="header__logo" src="./images/Vector.svg" alt="логотип-место">
+        <img class="header__logo" src="<%=require(./images/Vector.svg)%>" alt="логотип-место">
     </header>
     <main class="main">
         <section class="profile">
-            <img class="profile__avatar" src="./images/урсула.webp" alt="аватар">
+            <img class="profile__avatar" src="<%=require(./images/урсула.webp)%>" alt="аватар">
             <div class="profile__info">
                 <div class="profile__info-description">
                     <h1 class="profile__name">Урсула Крёбер</h1>
@@ -38,7 +38,7 @@
     <template id="mesto">
         <div class="mesto">
             <button class="mesto__delete" type="button" aria-label="Удалить"></button>
-            <img class="mesto__img" src="./images/photo_2022-12-07_15-50-21.jpg" alt="фотка-поста">
+            <img class="mesto__img" src="<%=require(./images/photo_2022-12-07_15-50-21.jpg)%>" alt="фотка-поста">
             <div class="mesto__non-image">
                 <h2 class="mesto__title">Грибыныч</h2>
                 <button class="mesto__like" type="button" aria-label="Лайк"></button>
@@ -56,12 +56,12 @@
                 <h2 class="form__title">Редактировать профиль</h2>
                    
                     <input value="" placeholder="Имя" minlength="2" maxlength="40" 
-                    class="form__field form__text form__field_text_name" id="name-input" name="Profile-name" required>
+                    class="form__field form__text form__field_text_name" id="name-input" name="name" required>
                     <span class="form__field-error name-input-error">Текст должен быть не короче 2 симв. Длина текста сейчас: 1 символ.</span>
                    
                    
                     <input value="" placeholder="О себе" minlength="4" maxlength="200" required
-                    class="form__field form__text form__field_text_job" id="job-input" name="Profile-job">
+                    class="form__field form__text form__field_text_job" id="job-input" name="info">
                     <span class="form__field-error form__field-error job-input-error">Расскажите о себе</span>
                
                 <button class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
@@ -81,11 +81,11 @@
                 <h2 class="form__title">Новое место</h2>
 
                 <input value="" minlength="4" maxlength="40" class="form__field form__text" id="form__field-card-text"
-                    name="Profile-name" placeholder="Название" required>
+                    name="name" placeholder="Название" required>
                     <span class="form__field-card-text-error form__field-error text-input-error">Текст должен быть не короче 2 симв. Длина текста сейчас: 1 символ.</span>
 
                 <input value="" type="url" class="form__field form__text" id="form__field-card-image"
-                    name="Profile-job" placeholder="Ссылка на картинку" required>
+                    name="link" placeholder="Ссылка на картинку" required>
                     <span class="form__field-card-image-error form__field-error image-input-error">Введите URl</span>
 
                 <button class="form__button" type="submit" aria-label="Сохранить">Сохранить</button>
@@ -98,7 +98,7 @@
     <div class="popup popup_img popup_background_black">
 
         <div class="popup__container popup__container-img">
-            <img class="popup__fullscreen-image" src="./images/photo_2022-12-07_15-50-21.jpg" alt="">
+            <img class="popup__fullscreen-image" src="<%=require(./images/photo_2022-12-07_15-50-21.jpg)%>" alt="">
             <p class="popup__fullscreen-title">csh</p>
 
             <button class="popup__close" type="button" aria-label="Закрыть"></button>
