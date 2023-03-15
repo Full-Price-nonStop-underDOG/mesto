@@ -1,3 +1,5 @@
+import '../pages/index.css';
+
 import {
   UserInfo
 } from './UserInfo.js';
