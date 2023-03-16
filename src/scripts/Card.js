@@ -1,23 +1,3 @@
-import{
-    Popup
-} from './Popup.js';
-
-import{
-    PopupWithImage
-} from './PopupWithImage.js';
-
-import {
-    imagePopup,
-    handleCardClick
-} from "./index.js";
-
-
-
-import {
-    fullscreenImage,
-    fullscreenTitle,
-} from './index.js';
-
 export class Card {
     constructor(data, templateSelector, handleCardClick) {
         this._templateSelector = templateSelector;

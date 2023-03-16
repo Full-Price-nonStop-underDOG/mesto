@@ -5,9 +5,8 @@ import{
 export class PopupWithImage extends Popup {
     constructor(popupSelector) {
       super(popupSelector);
-      this._popupElement = document.querySelector(popupSelector);
-      this._imageElement = this._popupElement.querySelector('.popup__fullscreen-image');
-      this._captionElement = this._popupElement.querySelector('.popup__fullscreen-title');
+      this._imageElement = this._popup.querySelector('.popup__fullscreen-image');
+      this._captionElement = this._popup.querySelector('.popup__fullscreen-title');
     }
   
     open(name, link) {
@@ -16,8 +15,5 @@ export class PopupWithImage extends Popup {
       super.open();
     }
 
-    close(){
-      super.close();
-    }
   }
   
