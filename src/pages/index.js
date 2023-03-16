@@ -2,31 +2,31 @@ import '../pages/index.css';
 
 import {
   UserInfo
-} from './UserInfo.js';
+} from '../components/UserInfo.js';
 
 import {
   Section
-} from './Section.js';
+} from '../components/Section.js';
 
 import {
   PopupWithImage
-} from './PopupWithImage.js';
+} from '../components/PopupWithImage.js';
 
 import {
   PopupWithForm
-} from './PopupWithForm.js';
+} from '../components/PopupWithForm.js';
 
 import {
   initialCards
-} from './constants.js';
+} from '../scripts/constants.js';
 
 import {
   FormValidator
-} from './FormValidator.js';
+} from '../components/FormValidator.js';
 
 import {
   Card
-} from './Card.js';
+} from '../components/Card.js';
 
 export const imagePopup = document.querySelector('.popup_img');
 // Переменные для всех трех попапов 
