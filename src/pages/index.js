@@ -124,3 +124,21 @@ buttonAdd.addEventListener('click', () => {
   cardCreateValidator.resetValidation();
 });
 
+fetch('https://nomoreparties.co/v1/cohort-61/users/me', {
+  headers: {
+    authorization: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d'
+  }
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Ошибка HTTP: ' + response.status);
+    }
+    return response.text();
+  })
+  .then(data => {
+    console.log(data); 
+  })
+  .catch(error => {
+    console.error('Ошибка:', error);
+  });
+

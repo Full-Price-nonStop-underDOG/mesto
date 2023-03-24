@@ -27,7 +27,6 @@ export class Card {
         this._cardImage.src = this._image;
         this._cardImage.alt = this._text;
 
-
         return this._element;
     }
 
@@ -56,3 +55,4 @@ export class Card {
     }
 
 }
+
