@@ -28,6 +28,14 @@ import {
   Card
 } from '../components/Card.js';
 
+import {
+  Api
+} from "../components/Api.js";
+
+import {
+  elementsApi
+} from '../scripts/constants.js'
+
 export const imagePopup = document.querySelector('.popup_img');
 // Переменные для всех трех попапов 
 
@@ -41,8 +49,6 @@ const imgInput = document.querySelector('#form__field-card-image');
 
 const profileButtonClose = document.querySelector('.popup__close_profile');
 const buttonCloseAdd = document.querySelector('#popup__close');
-
-const fullscreenClose = imagePopup.querySelector('.popup__close')
 
 const profilePopup = document.querySelector('#popup_type_edit');
 const cardCreatePopup = document.querySelector('#popup_type_new-card');
@@ -70,6 +76,7 @@ const userInfo = new UserInfo({
   nameSelector: '.profile__name',
   infoSelector: '.profile__job'
 });
+const api = new Api(elementsApi);
 
 const profileValidator = new FormValidator(config, profilePopup);
 profileValidator.enableValidation();
@@ -94,7 +101,7 @@ buttonEdit.addEventListener('click', () => {
 const popupImage = new PopupWithImage('.popup_img');
 popupImage.setEventListeners();
 
- function handleCardClick(item) {
+function handleCardClick(item) {
   popupImage.open(item.name, item.link);
   popupEditProfile.close();
 }
@@ -105,13 +112,13 @@ function createCard(data) {
   return cardElement;
 }
 
-const cardsSection = new Section({
-    items: initialCards,
-    renderer: (item) => cardsSection.addItem(createCard(item)),
-  },
-  ".mesta"
-);
-cardsSection.renderItems();
+// const cardsSection = new Section({
+//     items: api.getData(),
+//     renderer: (item) => cardsSection.addItem(createCard(item)),
+//   },
+//   ".mesta"
+// );
+// cardsSection.renderItems();
 const popupAddCard = new PopupWithForm('#popup_type_new-card', (data) => {
   console.log(data);
   cardsSection.addItem(createCard(data));
@@ -124,21 +131,44 @@ buttonAdd.addEventListener('click', () => {
   cardCreateValidator.resetValidation();
 });
 
-fetch('https://nomoreparties.co/v1/cohort-61/users/me', {
-  headers: {
-    authorization: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d'
-  }
-})
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Ошибка HTTP: ' + response.status);
-    }
-    return response.text();
-  })
-  .then(data => {
-    console.log(data); 
-  })
-  .catch(error => {
-    console.error('Ошибка:', error);
-  });
+// fetch('https://nomoreparties.co/v1/cohort-61/users/me', {
+//     headers: {
+//       authorization: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d'
+//     }
+//   })
+//   .then(response => {
+//     if (!response.ok) {
+//       throw new Error('Ошибка HTTP: ' + response.status);
+//     }
+//     return response.text();
+//   })
+//   .then(data => {
+//     console.log(data);
+//   })
+//   .catch(error => {
+//     console.error('Ошибка:', error);
+//   });
 
+async function fetchDataFromServer() {
+  try {
+    const response = await fetch('https://nomoreparties.co/v1/cohort-61/cards', {
+          headers: {
+             authorization: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d'
+           }
+         });
+    const data = await response.json();
+    return data;
+  } catch(error) {
+    console.error('Ошибка при получении данных:', error);
+    return null;
+  }
+}
+
+async function loadDataAndRenderCards() {
+  const cardsData = await fetchDataFromServer();
+  if (cardsData) {
+    cardsData.renderItems();
+  }
+}
+
+loadDataAndRenderCards();

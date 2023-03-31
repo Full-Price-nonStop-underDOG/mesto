@@ -24,3 +24,8 @@
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
   ];
+
+  export const elementsApi = {
+    token: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d',
+    URL: 'https://mesto.nomoreparties.co/v1/cohort-61'
+  }
