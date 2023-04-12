@@ -34,25 +34,17 @@ import {
 
 import {
   elementsApi
-} from '../scripts/constants.js'
+} from '../scripts/constants.js';
 
 export const imagePopup = document.querySelector('.popup_img');
 // Переменные для всех трех попапов 
 
 const buttonEdit = document.querySelector('.profile__button-edit');
 const buttonAdd = document.querySelector('.profile__button-add');
-
 const nameInput = document.querySelector('.form__field_text_name');
 const jobInput = document.querySelector('.form__field_text_job');
-const tagInput = document.querySelector('#form__field-card-text');
-const imgInput = document.querySelector('#form__field-card-image');
-
-const profileButtonClose = document.querySelector('.popup__close_profile');
-const buttonCloseAdd = document.querySelector('#popup__close');
-
 const profilePopup = document.querySelector('#popup_type_edit');
 const cardCreatePopup = document.querySelector('#popup_type_new-card');
-
 const fullscreenImage = document.querySelector('.popup__fullscreen-image');
 const fullscreenTitle = document.querySelector('.popup__fullscreen-title');
 const bigImageCloserEvent = document.querySelector('.popup__container-img');
@@ -76,7 +68,20 @@ const userInfo = new UserInfo({
   nameSelector: '.profile__name',
   infoSelector: '.profile__job'
 });
+
 const api = new Api(elementsApi);
+
+api.getInitialCardsData()
+  .then((cards) => {
+    console.log(cards);
+    const cardsSection = new Section({
+        items: cards,
+        renderer: (item) => cardsSection.addItem(createCard(item)),
+      },
+      ".mesta"
+    );
+    cardsSection.renderItems();
+  });
 
 const profileValidator = new FormValidator(config, profilePopup);
 profileValidator.enableValidation();
@@ -112,13 +117,6 @@ function createCard(data) {
   return cardElement;
 }
 
-// const cardsSection = new Section({
-//     items: api.getData(),
-//     renderer: (item) => cardsSection.addItem(createCard(item)),
-//   },
-//   ".mesta"
-// );
-// cardsSection.renderItems();
 const popupAddCard = new PopupWithForm('#popup_type_new-card', (data) => {
   console.log(data);
   cardsSection.addItem(createCard(data));
@@ -131,44 +129,28 @@ buttonAdd.addEventListener('click', () => {
   cardCreateValidator.resetValidation();
 });
 
-// fetch('https://nomoreparties.co/v1/cohort-61/users/me', {
-//     headers: {
-//       authorization: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d'
-//     }
-//   })
-//   .then(response => {
-//     if (!response.ok) {
-//       throw new Error('Ошибка HTTP: ' + response.status);
-//     }
-//     return response.text();
-//   })
-//   .then(data => {
-//     console.log(data);
-//   })
-//   .catch(error => {
-//     console.error('Ошибка:', error);
-//   });
 
-async function fetchDataFromServer() {
+async function handleSubmitFormEditProfile(data) {
   try {
-    const response = await fetch('https://nomoreparties.co/v1/cohort-61/cards', {
-          headers: {
-             authorization: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d'
-           }
-         });
-    const data = await response.json();
-    return data;
-  } catch(error) {
-    console.error('Ошибка при получении данных:', error);
-    return null;
+    const userProfile = await api.editProfileInfo(data)
+    userInfo.setUserInfo(userProfile)
+    popupEdit.close()
+  } catch (error) {
+    return console.log(`Ошибка: ${error}`)
   }
 }
 
-async function loadDataAndRenderCards() {
-  const cardsData = await fetchDataFromServer();
-  if (cardsData) {
-    cardsData.renderItems();
+fetch('https://mesto.nomoreparties.co/v1/cohort-61/users/me', {
+  method: "GET",
+  headers: {
+    authorization: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d'
   }
-}
+})
+  .then(res => res.json())
+  .then((result) => {
+    console.log(result);
+  });
 
-loadDataAndRenderCards();
+handleSubmitFormEditProfile();
+
+
