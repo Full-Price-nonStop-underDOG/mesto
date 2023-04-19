@@ -14,7 +14,7 @@
 <body class="page">
     <header class="header header_opacity">
         <img class="header__logo" src="<%=require('./images/Vector.svg')%>" alt="логотип-место">
-    </header>  
+    </header>
 
     <main class="main">
         <section class="profile">
@@ -42,7 +42,10 @@
             <img class="mesto__img" src="<%=require('./images/photo_2022-12-07_15-50-21.jpg')%>" alt="фотка-поста">
             <div class="mesto__non-image">
                 <h2 class="mesto__title">Грибыныч</h2>
-                <button class="mesto__like" type="button" aria-label="Лайк"></button>
+                <div class="mesto__like-container"><button class="mesto__like" type="button" aria-label="Лайк"></button>
+                    <p class="mesto__amount-like">0</p>
+                </div>
+
 
             </div>
         </div>
@@ -106,6 +109,15 @@
 
             <button class="popup__close" type="button" aria-label="Закрыть"></button>
 
+        </div>
+    </div>
+
+    <div class="popup popup_type_confirmation">
+        <div class="popup__container">
+            <button type="button" class="popup__close"></button>
+            <form class="popup__form">
+                <h2 class="popup__title">Вы уверены?</h2><button type="submit" class="popup__submit">Да</button>
+            </form>
         </div>
     </div>
 

@@ -14,6 +14,20 @@ export class Api {
         return (`Ошибка: ${res.status}`)
     }
 
+    async getUserInfo() {
+        const reply = await fetch('https://mesto.nomoreparties.co/v1/cohort-61/users/me', {
+                method: "GET",
+                headers: {
+                    authorization: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d'
+                }
+            })
+            .then(reply => reply.json())
+            .then((result) => {
+                console.log(result);
+            });
+
+    }
+
     async getInitialCardsData() {
         const reply = await fetch(`${this._url}/cards`, {
             headers: {
@@ -22,6 +36,11 @@ export class Api {
         })
         return this._handlePromiseRequest(reply);
     }
+
+    getInitialData() {
+        return Promise.all([this.getInitialCardsData(), this.getUserInfo()]);
+    }
+
 
     async addNewCard(data) {
         const response = await fetch(`${this._url}/cards`, {
@@ -47,22 +66,35 @@ export class Api {
                 about: data.about
             })
         });
-        return this._handleSendingRequest(response);
+
+        const info = await response.json();
+
+        return this._handleSendingRequest(info);
     }
 
-    async addNewCard() {
-        const response = await fetch(`${this._url}/cards`, {
-          method: "POST",
+    async removeCard(cardId) {
+        const response = await fetch(`${this._url}/cards/${cardId}`, {
+          method: "DELETE",
           headers: {
-            'Content-Type': 'application/json',
             authorization: this._token
-          },
-          body: JSON.stringify({
-            name: dfdfdfdf,
-            link: 'https://upload.wikimedia.org/wikipedia/commons/8/81/BlueRock.jpg'
-          }),
+          }
         })
         return this._handleSendingRequest(response)
       }
+
+    async addNewCard() {
+        const response = await fetch(`${this._url}/cards`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: this._token
+            },
+            body: JSON.stringify({
+                name: data.name,
+                link: data.link
+            }),
+        })
+        return this._handleSendingRequest(response)
+    }
 
 }

@@ -1,10 +1,14 @@
+import {
+    popupConfirmation
+} from '../pages/index.js';
+
 export class Card {
     constructor(data, templateSelector, handleCardClick) {
         this._templateSelector = templateSelector;
         this._image = data.link;
         this._text = data.name;
-        this._handleCardClick =  handleCardClick;
-        
+        this._handleCardClick = handleCardClick;
+
     }
 
     _getTemplate() {
@@ -31,17 +35,19 @@ export class Card {
     }
 
     _deleteCard() {
+
         this._element.remove();
         this._element = null;
     }
 
-    _likeButton(){
+    _likeButton() {
         this._buttonLike.classList.toggle('mesto__like_active');
     }
 
     _setEventListeners() {
         this._buttonLike = this._element.querySelector('.mesto__like');
         this._buttonDelete = this._element.querySelector('.mesto__delete');
+        this._popupConfirmation = this._element.querySelector('.popup_type_confirmation');
 
         this._buttonLike.addEventListener('click', this._likeButton.bind(this));
 
@@ -50,9 +56,8 @@ export class Card {
         this._cardImage.addEventListener('click', () => this._handleCardClick({
             name: this._text,
             link: this._image
-          }));
-        
+        }));
+
     }
 
 }
-

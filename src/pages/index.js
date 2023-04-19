@@ -1,6 +1,10 @@
 import '../pages/index.css';
 
 import {
+  PopupConfirmation
+} from "../components/PopupConfirmation.js";
+
+import {
   UserInfo
 } from '../components/UserInfo.js';
 
@@ -95,6 +99,14 @@ const popupEditProfile = new PopupWithForm('#popup_type_edit', (data) => {
 });
 popupEditProfile.setEventListeners();
 
+function handleEditProfileSubmit(formData) {
+  api.editProfileInfo(formData)
+    .then((data) => {
+      userInfo.setUserInfo(data);
+      close();
+    });
+}
+
 buttonEdit.addEventListener('click', () => {
   const dataUser = userInfo.getUserInfo();
   nameInput.value = dataUser.name;
@@ -117,6 +129,22 @@ function createCard(data) {
   return cardElement;
 }
 
+// buttonDelete.addEventListener('click', () => {
+//   popupConfirmation.open();
+// });
+
+export const popupConfirmation = new PopupConfirmation('.popup_type_confirmation', async (card) => {
+  api
+    .removeCard(card._id)
+    .then(() => {
+      card.deleteCard()
+      popupConfirmation.close(card)
+    })
+    .catch((error) => console.log(`Ошибка: ${error}`))
+});
+
+popupConfirmation.setEventListeners();
+
 const popupAddCard = new PopupWithForm('#popup_type_new-card', (data) => {
   console.log(data);
   cardsSection.addItem(createCard(data));
@@ -129,28 +157,29 @@ buttonAdd.addEventListener('click', () => {
   cardCreateValidator.resetValidation();
 });
 
-
-async function handleSubmitFormEditProfile(data) {
-  try {
-    const userProfile = await api.editProfileInfo(data)
-    userInfo.setUserInfo(userProfile)
-    popupEdit.close()
-  } catch (error) {
-    return console.log(`Ошибка: ${error}`)
-  }
-}
-
 fetch('https://mesto.nomoreparties.co/v1/cohort-61/users/me', {
-  method: "GET",
-  headers: {
-    authorization: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d'
-  }
-})
+    method: "GET",
+    headers: {
+      authorization: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d'
+    }
+  })
   .then(res => res.json())
   .then((result) => {
     console.log(result);
   });
 
-handleSubmitFormEditProfile();
-
-
+api.getInitialData()
+  .then(([cards, userInfo]) => {
+    const cardsSection = new Section({
+        items: cards,
+        renderer: (item) => cardsSection.addItem(createCard(item)),
+      },
+      ".mesta"
+    );
+    cardsSection.renderItems();
+    const profileInfo = new UserInfo({
+      nameSelector: '.profile__name',
+      infoSelector: '.profile__job'
+    });
+    profileInfo.setUserInfo(userInfo);
+  });
