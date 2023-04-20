@@ -75,15 +75,27 @@ const userInfo = new UserInfo({
 
 const api = new Api(elementsApi);
 
+const cardsSection = new Section(
+  {
+    renderer: (data) => {
+      const card = createCard(data)
+
+      cardsSection.addItem(card)
+    },
+  },
+  ".mesta"
+);
+
 api.getInitialCardsData()
   .then((cards) => {
     console.log(cards);
-    const cardsSection = new Section({
-        items: cards,
-        renderer: (item) => cardsSection.addItem(createCard(item)),
-      },
-      ".mesta"
-    );
+    // const cardsSection = new Section({
+    //     items: cards,
+    //     renderer: (item) => cardsSection.addItem(createCard(item)),
+    //   },
+    //   ".mesta"
+    // );
+    cardsSection(cards, (item) => cardsSection.addItem(createCard(item)), ".mesta")
     cardsSection.renderItems();
   });
 
@@ -147,7 +159,8 @@ popupConfirmation.setEventListeners();
 
 const popupAddCard = new PopupWithForm('#popup_type_new-card', (data) => {
   console.log(data);
-  cardsSection.addItem(createCard(data));
+  const newCard =  api.addNewCard(data).then(response => cardsSection.addItem(createCard(response)));
+
   popupAddCard.close();
 });
 popupAddCard.setEventListeners();

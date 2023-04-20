@@ -8,6 +8,7 @@ export class Card {
         this._image = data.link;
         this._text = data.name;
         this._handleCardClick = handleCardClick;
+        this._likes = data.likes;
 
     }
 
@@ -41,6 +42,10 @@ export class Card {
     }
 
     _likeButton() {
+        this._buttonLike.classList.toggle('mesto__like_active');
+    }
+
+    _removeButton() {
         this._buttonLike.classList.toggle('mesto__like_active');
     }
 
