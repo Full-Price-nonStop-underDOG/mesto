@@ -75,29 +75,29 @@ const userInfo = new UserInfo({
 
 const api = new Api(elementsApi);
 
-const cardsSection = new Section(
-  {
+const cardSection = new Section({
     renderer: (data) => {
       const card = createCard(data)
 
-      cardsSection.addItem(card)
+      cardSection.addItem(card)
     },
   },
   ".mesta"
 );
 
-api.getInitialCardsData()
-  .then((cards) => {
+async function loadInitialCards() {
+  try {
+    const cards = await api.getInitialCardsData();
     console.log(cards);
-    // const cardsSection = new Section({
-    //     items: cards,
-    //     renderer: (item) => cardsSection.addItem(createCard(item)),
-    //   },
-    //   ".mesta"
-    // );
-    cardsSection(cards, (item) => cardsSection.addItem(createCard(item)), ".mesta")
+
+    const cardsSection = new Section(cards, (item) => cardsSection.addItem(createCard(item)), ".mesta");
     cardsSection.renderItems();
-  });
+  } catch (error) {
+    console.log(`Ошибка: ${error}`);
+  }
+}
+
+loadInitialCards();
 
 const profileValidator = new FormValidator(config, profilePopup);
 profileValidator.enableValidation();
@@ -106,16 +106,18 @@ const cardCreateValidator = new FormValidator(config, cardCreatePopup);
 cardCreateValidator.enableValidation();
 
 const popupEditProfile = new PopupWithForm('#popup_type_edit', (data) => {
-  userInfo.setUserInfo(data);
+  handleEditProfileSubmit(data);
   popupEditProfile.close();
 });
 popupEditProfile.setEventListeners();
 
 function handleEditProfileSubmit(formData) {
+  
   api.editProfileInfo(formData)
-    .then((data) => {
-      userInfo.setUserInfo(data);
-      close();
+    .then((formData) => {
+      console.log('ghhbhbhhghgh', formData);
+      userInfo.setUserInfo(formData);
+
     });
 }
 
@@ -136,7 +138,21 @@ function handleCardClick(item) {
 }
 
 function createCard(data) {
-  const card = new Card(data, '#mesto', handleCardClick);
+  const card = new Card(data, '#mesto', handleCardClick, async () => {
+    try {
+      const res = await api.addLike(data._id);
+      card.likesCount(res);
+    } catch (error) {
+      return console.log(`Ошибка: ${error}`);
+    }
+  }, async () => {
+    try {
+      const res = await api.removeLike(data._id);
+      card.likesCount(res);
+    } catch (error) {
+      return console.log(`Ошибка: ${error}`);
+    }
+  });
   const cardElement = card.generateCard();
   return cardElement;
 }
@@ -159,7 +175,7 @@ popupConfirmation.setEventListeners();
 
 const popupAddCard = new PopupWithForm('#popup_type_new-card', (data) => {
   console.log(data);
-  const newCard =  api.addNewCard(data).then(response => cardsSection.addItem(createCard(response)));
+  api.addNewCard(data).then(response => cardSection.addItem(createCard(response)));
 
   popupAddCard.close();
 });

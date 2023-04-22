@@ -13,6 +13,27 @@ export class Api {
         }
         return (`Ошибка: ${res.status}`)
     }
+    async addLike(cardId) {
+        const response = await fetch(`${this._url}/cards/${cardId}/likes`, {
+          method: "PUT",
+          headers: {
+            authorization: this._token
+          },
+        })
+        return this._handlePromiseRequest(response)
+      }
+
+      async removeLike(cardId) {
+        const response = await fetch(`${this._url}/cards/${cardId}/likes`, {
+          method: "DELETE",
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: this._token
+          },
+        })
+        
+        return this._handlePromiseRequest(response);
+      }
 
     async getUserInfo() {
         const reply = await fetch(`${this._url}/users/me`, {
@@ -46,13 +67,11 @@ export class Api {
             },
             body: JSON.stringify({
                 name: data.name,
-                about: data.about
+                about: data.info
             })
         });
 
-        const info = await response.json();
-
-        return this._handlePromiseRequest(info);
+        return this._handlePromiseRequest(response);
     }
 
     async removeCard(cardId) {
