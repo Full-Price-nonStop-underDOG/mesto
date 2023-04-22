@@ -3,12 +3,16 @@ import {
 } from '../pages/index.js';
 
 export class Card {
-    constructor(data, templateSelector, handleCardClick) {
+    constructor(data, templateSelector, handleCardClick, like, dislike) {
         this._templateSelector = templateSelector;
         this._image = data.link;
         this._text = data.name;
-        this._handleCardClick = handleCardClick;
         this._likes = data.likes;
+        this._id = data._id;
+        this._ownerId = data.owner._id;
+        this._like = like;
+        this._dislike = dislike;
+        this._handleCardClick = handleCardClick;
 
     }
 
@@ -26,13 +30,32 @@ export class Card {
         this._element = this._getTemplate();
         const titleName = this._element.querySelector('.mesto__title');
         this._cardImage = this._element.querySelector('.mesto__img');
+        this._likesCount = this._element.querySelector(".elements__amount-like");
+        
         this._setEventListeners();
 
         titleName.textContent = this._text;
         this._cardImage.src = this._image;
         this._cardImage.alt = this._text;
 
+        this._likeDislike();
         return this._element;
+    }
+
+    likesCount(result) {
+        this._likes = result.likes
+        this._likeDislike()
+    }
+
+    _likeDislike() {
+        const likesUser = this._likes.some(like => like._id === this._userId)
+        if (likesUser) {
+            this._likeButton()
+        }
+        else {
+            this._unlikeButton()
+        }
+        this._likesCount.textContent = this._likes.length
     }
 
     _deleteCard() {
@@ -45,7 +68,7 @@ export class Card {
         this._buttonLike.classList.toggle('mesto__like_active');
     }
 
-    _removeButton() {
+    _unlikeButton() {
         this._buttonLike.classList.toggle('mesto__like_active');
     }
 
@@ -54,7 +77,13 @@ export class Card {
         this._buttonDelete = this._element.querySelector('.mesto__delete');
         this._popupConfirmation = this._element.querySelector('.popup_type_confirmation');
 
-        this._buttonLike.addEventListener('click', this._likeButton.bind(this));
+        this._likeButton.addEventListener("click", () => {
+            if (this._likeButton.classList.contains("mesto__like_active")) {
+                this._dislike()
+            } else {
+                this._like()
+            }
+        });
 
         this._buttonDelete.addEventListener('click', this._deleteCard.bind(this));
 
@@ -66,3 +95,4 @@ export class Card {
     }
 
 }
+
