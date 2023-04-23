@@ -157,10 +157,6 @@ function createCard(data) {
   return cardElement;
 }
 
-// buttonDelete.addEventListener('click', () => {
-//   popupConfirmation.open();
-// });
-
 export const popupConfirmation = new PopupConfirmation('.popup_type_confirmation', async (card) => {
   api
     .removeCard(card._id)
