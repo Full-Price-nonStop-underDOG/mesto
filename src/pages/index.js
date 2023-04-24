@@ -155,6 +155,7 @@ function createCard(data) {
   });
   card.setDeleteIconClickHandler();
   const cardElement = card.generateCard();
+  
   return cardElement;
 }
 

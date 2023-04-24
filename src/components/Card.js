@@ -34,6 +34,7 @@ export class Card {
         this._likesCount = this._element.querySelector(".mesto__amount-like");
 
         this._setEventListeners();
+       
 
         titleName.textContent = this._text;
         this._cardImage.src = this._image;
