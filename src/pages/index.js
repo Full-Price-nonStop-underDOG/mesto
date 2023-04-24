@@ -153,19 +153,21 @@ function createCard(data) {
       return console.log(`Ошибка: ${error}`);
     }
   });
+  card.setDeleteIconClickHandler();
   const cardElement = card.generateCard();
   return cardElement;
 }
 
-export const popupConfirmation = new PopupConfirmation('.popup_type_confirmation', async (card) => {
-  api
-    .removeCard(card._id)
+export const popupConfirmation = new PopupConfirmation('.popup_type_confirmation', (card) => {
+  // Обработка сабмита формы удаления карточки
+  api.deleteCard(card.id)
     .then(() => {
-      card.deleteCard()
-      popupConfirmation.close(card)
+      card.remove();
+      popupConfirmation.close();
     })
-    .catch((error) => console.log(`Ошибка: ${error}`))
+    .catch(err => console.log(`Ошибка: ${err}`));
 });
+
 
 popupConfirmation.setEventListeners();
 

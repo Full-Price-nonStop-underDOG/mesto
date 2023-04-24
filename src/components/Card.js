@@ -3,8 +3,9 @@ import {
 } from '../pages/index.js';
 
 export class Card {
-    constructor(data, templateSelector, handleCardClick, like, dislike) {
+    constructor(data, templateSelector, handleCardClick, like, dislike, popupConfirmation) {
         this._templateSelector = templateSelector;
+        this._popupConfirmation = popupConfirmation;
         this._image = data.link;
         this._text = data.name;
         this._likes = data.likes;
@@ -31,7 +32,7 @@ export class Card {
         const titleName = this._element.querySelector('.mesto__title');
         this._cardImage = this._element.querySelector('.mesto__img');
         this._likesCount = this._element.querySelector(".mesto__amount-like");
-        
+
         this._setEventListeners();
 
         titleName.textContent = this._text;
@@ -40,9 +41,7 @@ export class Card {
 
         this._likeDislike();
         return this._element;
-        if (this._userId !== this._ownerId) {
-            this._button.remove();
-        }
+
     }
 
     likesCount(result) {
@@ -54,12 +53,22 @@ export class Card {
         const likesUser = this._likes.some(like => like._id === this._userId)
         if (likesUser) {
             this._likeButton()
-        }
-        else {
+        } else {
             this._unlikeButton()
         }
         this._likesCount.textContent = this._likes.length
     }
+
+    _handleDeleteIconClick() {
+        this._popupConfirmation.open(this);
+    }
+
+    setDeleteIconClickHandler(card, popupConfirmation) {
+        this._buttonDelete = card.querySelector('.mesto__delete');
+        this._buttonDelete.addEventListener('click', () => {
+          popupConfirmation.open(card);
+        });
+      }
 
     _deleteCard() {
 
@@ -77,7 +86,7 @@ export class Card {
 
     _setEventListeners() {
         this._buttonLike = this._element.querySelector('.mesto__like');
-        this._buttonDelete = this._element.querySelector('.mesto__delete');
+       
         this._popupConfirmation = this._element.querySelector('.popup_type_confirmation');
 
         this._buttonLike.addEventListener("click", () => {
@@ -88,8 +97,6 @@ export class Card {
             }
         });
 
-        this._buttonDelete.addEventListener('click',  popupConfirmation.open);
-
         this._cardImage.addEventListener('click', () => this._handleCardClick({
             name: this._text,
             link: this._image
@@ -98,4 +105,3 @@ export class Card {
     }
 
 }
-
