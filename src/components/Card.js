@@ -64,10 +64,10 @@ export class Card {
         this._popupConfirmation.open(this);
     }
 
-    setDeleteIconClickHandler(card, popupConfirmation) {
+    setDeleteIconClickHandler(card) {
         this._buttonDelete = card.querySelector('.mesto__delete');
         this._buttonDelete.addEventListener('click', () => {
-          popupConfirmation.open(card);
+            this._popupConfirmation.open(card);
         });
       }
 
