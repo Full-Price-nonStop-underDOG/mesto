@@ -3,13 +3,14 @@ import {
 } from '../pages/index.js';
 
 export class Card {
-    constructor(data, templateSelector, handleCardClick, like, dislike, popupConfirmation) {
+    constructor(data, templateSelector, handleCardClick, like, dislike, popupConfirmation, userId) {
         this._templateSelector = templateSelector;
         this._popupConfirmation = popupConfirmation;
         this._image = data.link;
         this._text = data.name;
         this._likes = data.likes;
         this._id = data.id;
+        this._userId = userId;
         this._ownerId = data.owner.id;
         this._like = like;
         this._dislike = dislike;
@@ -32,7 +33,7 @@ export class Card {
         const titleName = this._element.querySelector('.mesto__title');
         this._cardImage = this._element.querySelector('.mesto__img');
         this._likesCount = this._element.querySelector(".mesto__amount-like");
-
+        this._buttonDelete = this._element.querySelector('.mesto__delete');
         this._setEventListeners();
        
 
@@ -41,8 +42,11 @@ export class Card {
         this._cardImage.alt = this._text;
 
         this._likeDislike();
+        if (this._userId !== this._ownerId) {
+            this._buttonDelete.remove();
+        }
         return this._element;
-
+         
     }
 
     likesCount(result) {
@@ -82,7 +86,7 @@ export class Card {
     }
 
     _unlikeButton() {
-        this._buttonLike.classList.toggle('mesto__like_active');
+        this._buttonLike.classList.remove('mesto__like_active');
     }
 
     _setEventListeners() {
@@ -94,7 +98,7 @@ export class Card {
             if (this._buttonLike.classList.contains("mesto__like_active")) {
                 this._dislike()
             } else {
-                this._like()
+                this._likeButton()
             }
         });
 

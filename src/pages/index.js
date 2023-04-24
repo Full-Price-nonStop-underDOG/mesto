@@ -52,7 +52,7 @@ const cardCreatePopup = document.querySelector('#popup_type_new-card');
 const fullscreenImage = document.querySelector('.popup__fullscreen-image');
 const fullscreenTitle = document.querySelector('.popup__fullscreen-title');
 const bigImageCloserEvent = document.querySelector('.popup__container-img');
-
+let userId;
 export {
   fullscreenImage,
   fullscreenTitle,
@@ -138,7 +138,7 @@ function handleCardClick(item) {
 }
 
 function createCard(data) {
-  const card = new Card(data, '#mesto', handleCardClick, async () => {
+  const card = new Card(data, '#mesto', handleCardClick, userId, async () => {
     try {
       const res = await api.addLike(data._id);
       card.likesCount(res);
@@ -153,7 +153,7 @@ function createCard(data) {
       return console.log(`Ошибка: ${error}`);
     }
   });
-  card.setDeleteIconClickHandler();
+  //card.setDeleteIconClickHandler();
   const cardElement = card.generateCard();
   
   return cardElement;
