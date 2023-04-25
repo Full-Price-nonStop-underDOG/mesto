@@ -99,4 +99,15 @@ export class Api {
         return this._handlePromiseRequest(response)
     }
 
+    
+    async getCard(cardId) {
+        const response = await fetch(`${this._url}/cards/${cardId}`, {
+            method: "GET",
+            headers: {
+                authorization: this._token
+            }
+        })
+        return this._handlePromiseRequest(response)
+    }
+
 }

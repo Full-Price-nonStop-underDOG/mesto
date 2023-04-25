@@ -52,7 +52,20 @@ const cardCreatePopup = document.querySelector('#popup_type_new-card');
 const fullscreenImage = document.querySelector('.popup__fullscreen-image');
 const fullscreenTitle = document.querySelector('.popup__fullscreen-title');
 const bigImageCloserEvent = document.querySelector('.popup__container-img');
-let userId;
+
+export let userId = fetch('https://mesto.nomoreparties.co/v1/cohort-61/users/me', {
+    method: "GET",
+    headers: {
+      authorization: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d'
+    }
+  })
+  .then(res => res.json())
+  .then((result) => {
+    console.log(result);
+    return (result._id);
+
+  });;
+
 export {
   fullscreenImage,
   fullscreenTitle,
@@ -112,7 +125,7 @@ const popupEditProfile = new PopupWithForm('#popup_type_edit', (data) => {
 popupEditProfile.setEventListeners();
 
 function handleEditProfileSubmit(formData) {
-  
+
   api.editProfileInfo(formData)
     .then((formData) => {
       console.log('ghhbhbhhghgh', formData);
@@ -138,35 +151,21 @@ function handleCardClick(item) {
 }
 
 function createCard(data) {
-  const card = new Card(data, '#mesto', handleCardClick, userId, async () => {
-    try {
-      const res = await api.addLike(data._id);
-      card.likesCount(res);
-    } catch (error) {
-      return console.log(`Ошибка: ${error}`);
-    }
-  }, async () => {
-    try {
-      const res = await api.removeLike(data._id);
-      card.likesCount(res);
-    } catch (error) {
-      return console.log(`Ошибка: ${error}`);
-    }
-  });
-  //card.setDeleteIconClickHandler();
+  const card = new Card(data, '#mesto', handleCardClick, popupConfirmation, userId)
+  card.setDeleteIconClickHandler(card);
   const cardElement = card.generateCard();
-  
+
   return cardElement;
 }
 
-export const popupConfirmation = new PopupConfirmation('.popup_type_confirmation', (card) => {
-  // Обработка сабмита формы удаления карточки
-  api.deleteCard(card.id)
+export const popupConfirmation = new PopupConfirmation('.popup_type_confirmation', async (card) => {
+  api
+    .removeCard(card._id)
     .then(() => {
-      card.remove();
-      popupConfirmation.close();
+      card.deleteCard()
+      popupConfirmation.close(card)
     })
-    .catch(err => console.log(`Ошибка: ${err}`));
+    .catch((error) => console.log(`Ошибка: ${error}`))
 });
 
 
@@ -185,16 +184,7 @@ buttonAdd.addEventListener('click', () => {
   cardCreateValidator.resetValidation();
 });
 
-fetch('https://mesto.nomoreparties.co/v1/cohort-61/users/me', {
-    method: "GET",
-    headers: {
-      authorization: '8de39d2e-51cd-4fb0-8531-ab4805fcaf6d'
-    }
-  })
-  .then(res => res.json())
-  .then((result) => {
-    console.log(result);
-  });
+
 
 api.getInitialData()
   .then(([cards, userInfo]) => {
@@ -210,4 +200,5 @@ api.getInitialData()
       infoSelector: '.profile__job'
     });
     profileInfo.setUserInfo(userInfo);
+    userId = userInfo._id;
   });

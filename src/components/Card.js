@@ -1,19 +1,29 @@
 import {
-    popupConfirmation
+    Api
+} from "../components/Api.js";
+
+import {
+    elementsApi
+} from '../scripts/constants.js';
+const api = new Api(elementsApi);
+
+import{
+    userId
 } from '../pages/index.js';
 
+const hasUserLikes = (likes, userId) => likes.some(like => userId === like._id)
+
 export class Card {
-    constructor(data, templateSelector, handleCardClick, like, dislike, popupConfirmation, userId) {
+    constructor(data, templateSelector, handleCardClick, popupConfirmation, userId) {
         this._templateSelector = templateSelector;
         this._popupConfirmation = popupConfirmation;
         this._image = data.link;
         this._text = data.name;
         this._likes = data.likes;
-        this._id = data.id;
+        this._id = data._id;
         this._userId = userId;
-        this._ownerId = data.owner.id;
-        this._like = like;
-        this._dislike = dislike;
+        this._ownerId = data.owner._id;
+
         this._handleCardClick = handleCardClick;
 
     }
@@ -35,33 +45,35 @@ export class Card {
         this._likesCount = this._element.querySelector(".mesto__amount-like");
         this._buttonDelete = this._element.querySelector('.mesto__delete');
         this._setEventListeners();
-       
 
         titleName.textContent = this._text;
         this._cardImage.src = this._image;
         this._cardImage.alt = this._text;
-
-        this._likeDislike();
+        this.likesCount(this._likes.length);
         if (this._userId !== this._ownerId) {
             this._buttonDelete.remove();
         }
         return this._element;
-         
+
     }
 
-    likesCount(result) {
-        this._likes = result.likes
-        this._likeDislike()
+    likesCount(count) {
+        this._likes = count;
+        this._likesCount.textContent = count;
+        
+        // this._likeDislike();
     }
 
     _likeDislike() {
         const likesUser = this._likes.some(like => like._id === this._userId)
         if (likesUser) {
-            this._likeButton()
+            // this._likeButton()
         } else {
-            this._unlikeButton()
+            // this._unlikeButton()
         }
-        this._likesCount.textContent = this._likes.length
+
+        this.likesCount.textContent = this._likes.length
+        
     }
 
     _handleDeleteIconClick() {
@@ -73,30 +85,82 @@ export class Card {
         this._buttonDelete.addEventListener('click', () => {
             this._popupConfirmation.open(card);
         });
-      }
+    }
 
-    _deleteCard() {
+    deleteCard() {
 
         this._element.remove();
         this._element = null;
     }
 
-    _likeButton() {
-        this._buttonLike.classList.toggle('mesto__like_active');
+    // _likeButton() {
+    //     this._buttonLike.classList.add('mesto__like_active');
+
+    //     async () => {
+    //         try {
+    //             const res = await api.addLike(data._id);
+    //             likesCount(res);
+    //             console.log('set like')
+    //         } catch (error) {
+    //             return console.log(`Ошибка: ${error}`);
+    //         }
+    //     }
+    // }
+
+    async _likeButton() {
+        try {
+            //this._buttonLike.classList.toggle('mesto__like_active');
+            const { likes } = await api.addLike(this._id);
+            
+            this.likesCount(likes.length);
+             if (hasUserLikes(likes, userId)) {
+                 this._buttonLike.classList.toggle('mesto__like_active');
+             } else {
+                this._buttonLike.classList.toggle('mesto__like_active');
+             }
+            console.log('set like');
+        } catch (error) {
+            console.log(`Ошибка: ${error}`);
+        }
     }
 
-    _unlikeButton() {
-        this._buttonLike.classList.remove('mesto__like_active');
+    async _unlikeButton() {
+        try {
+            //this._buttonLike.classList.remove('mesto__like_active');
+            const { likes } = await api.removeLike(this._id);
+            this.likesCount(likes.length);
+             if (hasUserLikes(likes, userId)) {
+                 this._buttonLike.classList.remove('mesto__like_active');
+             } else {
+                 this._buttonLike.classList.toggle('mesto__like_active');
+             }
+            console.log('set dislike');
+        } catch (error) {
+            console.log(`Ошибка: ${error}`);
+        }
     }
+
+    // _unlikeButton() {
+    //     this._buttonLike.classList.remove('mesto__like_active');
+    //     async () => {
+    //         try {
+    //             const res = await api.removeLike(data._id);
+    //             likesCount(res);
+    //             console.log('set like')
+    //         } catch (error) {
+    //             return console.log(`Ошибка: ${error}`);
+    //         }
+    //     }
+    // }
 
     _setEventListeners() {
         this._buttonLike = this._element.querySelector('.mesto__like');
-       
+
         this._popupConfirmation = this._element.querySelector('.popup_type_confirmation');
 
         this._buttonLike.addEventListener("click", () => {
             if (this._buttonLike.classList.contains("mesto__like_active")) {
-                this._dislike()
+                this._unlikeButton()
             } else {
                 this._likeButton()
             }
