@@ -26,6 +26,45 @@
     max-width: 358px;
 }
 
+.popup__title {
+    margin: 0 0 54px 0;
+    width: 330px;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+}
+
+.popup__submit {
+    margin-top: 18px;
+    width: 358px;
+    height: 50px;
+    background: #000000;
+    border-radius: 2px;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    cursor: pointer;
+    opacity: 1;
+    transition-duration: 3s;
+    border: 0;
+}
+
+.popup__text {
+    margin: 0;
+    padding: 0 0 13px 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    width: 100%;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+}
+
 @media screen and (max-width:770px) {
     
     .popup__container {
