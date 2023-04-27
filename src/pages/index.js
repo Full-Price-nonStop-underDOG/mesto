@@ -26,12 +26,14 @@ export const imagePopup = document.querySelector(".popup_img");
 const buttonEdit = document.querySelector(".profile__button-edit");
 const buttonAdd = document.querySelector(".profile__button-add");
 const nameInput = document.querySelector(".form__field_text_name");
+const avatarInput = document.querySelector(".form__field_text_avatar");
 const jobInput = document.querySelector(".form__field_text_job");
 const profilePopup = document.querySelector("#popup_type_edit");
 const cardCreatePopup = document.querySelector("#popup_type_new-card");
 const fullscreenImage = document.querySelector(".popup__fullscreen-image");
 const fullscreenTitle = document.querySelector(".popup__fullscreen-title");
 const bigImageCloserEvent = document.querySelector(".popup__container-img");
+const buttonEditAvatar = document.querySelector(".profile__edit-avatar");
 
 export let userId = fetch(
   "https://mesto.nomoreparties.co/v1/cohort-61/users/me",
@@ -62,6 +64,7 @@ const config = {
 const userInfo = new UserInfo({
   name: ".profile__name",
   about: ".profile__job",
+  avatar: ".profile__avatar",
 });
 
 const api = new Api(elementsApi);
@@ -106,6 +109,29 @@ const popupEditProfile = new PopupWithForm("#popup_type_edit", (data) => {
   popupEditProfile.close();
 });
 popupEditProfile.setEventListeners();
+
+const popupAvatar = new PopupWithForm(
+  ".popup_type_update-avatar",
+  handleSubmitFormUpdateAvatar
+);
+popupAvatar.setEventListeners();
+
+async function handleSubmitFormUpdateAvatar(data) {
+  try {
+    console.log("cshhchs");
+    const userProfile = await api.updateProfileUserAvatar(data);
+    userInfo.setUserInfo(userProfile);
+    popupAvatar.close();
+  } catch (error) {
+    return console.log(`Ошибка: ${error}`);
+  }
+}
+
+buttonEditAvatar.addEventListener("click", () => {
+  popupAvatar.open();
+  // const userAvatar = userInfo.getUserInfo();
+  // avatarInput.value = dataUser.name;
+});
 
 function handleEditProfileSubmit(formData) {
   api.editProfileInfo(formData).then((formData) => {
@@ -177,6 +203,7 @@ api.getInitialData().then(([cards, data]) => {
   const profileInfo = new UserInfo({
     name: ".profile__name",
     about: ".profile__job",
+    avatar: ".profile__avatar",
   });
   profileInfo.setUserInfo(data);
   userId = data._id;

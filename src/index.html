@@ -119,18 +119,19 @@
         <div class="popup__container">
             <button type="button" class="popup__close"></button>
             <form class="popup__form">
-                <h2 class="popup__title">Вы уверены?</h2><button type="submit" class="popup__submit">Да</button>
+                <h2 class="popup__title">Вы уверены?</h2>
+                <button type="submit" class="popup__submit">Да</button>
             </form>
         </div>
     </div>
     <div class="popup popup_type_update-avatar">
         <div class="popup__container">
             <button type="button" class="popup__close"></button>
-            <form class="popup__form" name="editAvatarForm" id="editAvatarForm" novalidate="">
+            <form class="form" name="editAvatarForm" id="editAvatarForm" novalidate="">
                 <h2 class="popup__title">Обновить аватар</h2>
-                <input type="url" name="avatar" value="" id="avatar" class="popup__text popup__text_type_subtitle" placeholder="Введите ссылку URL" required=""> 
+                <input type="url" name="avatar" value="" id="avatar" class="form__field form__field_text_avatar" placeholder="Введите ссылку URL" required=""> 
                 <span class="form__field-error"></span> 
-                <button type="submit" class="popup__submit popup__submit_inactive" disabled="">Сохранить</button>
+                <button type="submit" class="form__button">Сохранить</button>
             </form>
             </div>
         </div>
