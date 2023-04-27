@@ -56,6 +56,7 @@ export class Api {
   }
 
   async editProfileInfo(data) {
+    console.log(data);
     const response = await fetch(
       "https://mesto.nomoreparties.co/v1/cohort-61/users/me",
       {
@@ -67,6 +68,7 @@ export class Api {
         body: JSON.stringify({
           name: data.name,
           about: data.about,
+          avatar: data.avatar,
         }),
       }
     );

@@ -14,7 +14,7 @@
     line-height: 22px;
     padding: 0;
     cursor: pointer;
-    
+    transition-duration: 3s;
 }
 
 .form__button:hover{
