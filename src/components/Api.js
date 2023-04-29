@@ -1,6 +1,6 @@
 export class Api {
-  constructor({ token, URL }) {
-    this._token = token;
+  constructor({ headers, URL }) {
+    this._headers = headers;
     this._url = URL;
   }
 
@@ -8,14 +8,12 @@ export class Api {
     if (res.ok) {
       return res.json();
     }
-    return `Ошибка: ${res.status}`;
+    return null;
   }
   async addLike(cardId) {
     const response = await fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "PUT",
-      headers: {
-        authorization: this._token,
-      },
+      headers: this._headers,
     });
     return this._handlePromiseRequest(response);
   }
@@ -23,10 +21,7 @@ export class Api {
   async removeLike(cardId) {
     const response = await fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: this._token,
-      },
+      headers: this._headers,
     });
 
     return this._handlePromiseRequest(response);
@@ -35,18 +30,14 @@ export class Api {
   async getUserInfo() {
     const reply = await fetch(`${this._url}/users/me`, {
       method: "GET",
-      headers: {
-        authorization: this._token,
-      },
+      headers: this._headers,
     });
     return this._handlePromiseRequest(reply);
   }
 
   async getInitialCardsData() {
     const reply = await fetch(`${this._url}/cards`, {
-      headers: {
-        authorization: this._token,
-      },
+      headers: this._headers,
     });
     return this._handlePromiseRequest(reply);
   }
@@ -57,21 +48,16 @@ export class Api {
 
   async editProfileInfo(data) {
     console.log(data);
-    const response = await fetch(
-      "https://mesto.nomoreparties.co/v1/cohort-61/users/me",
-      {
-        method: "PATCH",
-        headers: {
-          authorization: "8de39d2e-51cd-4fb0-8531-ab4805fcaf6d",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: data.name,
-          about: data.about,
-          avatar: data.avatar,
-        }),
-      }
-    );
+    const response = await fetch(`${this._url}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+
+      body: JSON.stringify({
+        name: data.name,
+        about: data.about,
+        avatar: data.avatar,
+      }),
+    });
 
     return this._handlePromiseRequest(response);
   }
@@ -79,9 +65,7 @@ export class Api {
   async removeCard(cardId) {
     const response = await fetch(`${this._url}/cards/${cardId}`, {
       method: "DELETE",
-      headers: {
-        authorization: this._token,
-      },
+      headers: this._headers,
     });
     return this._handlePromiseRequest(response);
   }
@@ -89,10 +73,8 @@ export class Api {
   async addNewCard(data) {
     const response = await fetch(`${this._url}/cards`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: this._token,
-      },
+      headers: this._headers,
+
       body: JSON.stringify({
         name: data.name,
         link: data.link,
@@ -104,9 +86,7 @@ export class Api {
   async getCard(cardId) {
     const response = await fetch(`${this._url}/cards/${cardId}`, {
       method: "GET",
-      headers: {
-        authorization: this._token,
-      },
+      headers: this._headers,
     });
     return this._handlePromiseRequest(response);
   }
@@ -114,10 +94,7 @@ export class Api {
   async updateProfileUserAvatar(data) {
     const response = await fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: this._token,
-      },
+      headers: this._headers,
       body: JSON.stringify({
         avatar: data.avatar,
       }),
