@@ -1,8 +1,6 @@
 export class Card {
   constructor(data, templateSelector, handleCardClick, userId, callbacks) {
     this._templateSelector = templateSelector;
-    console.log(data);
-    console.log(data.owner._id);
 
     this._image = data.link;
     this._text = data.name;
