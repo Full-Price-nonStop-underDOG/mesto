@@ -152,12 +152,21 @@ const initialCardsSection = new Section(
 
 const onDelete = async (id) => {
   const popupConfirmation = new PopupConfirmation(".popup_type_confirmation");
-  popupConfirmation.setEventListeners();
-  await popupConfirmation.open();
-  const response = await api.removeCard(id);
+  //popupConfirmation.setEventListeners();
+  try {
+    const confirmation = await popupConfirmation.open();
 
-  popupConfirmation.close();
-  return !!response;
+    const response = await api.removeCard(id);
+
+    if (!response) {
+      throw new Error("fewfwefwefewf");
+    }
+    popupConfirmation.close();
+
+    return true;
+  } catch (error) {
+    return false;
+  }
 };
 
 const onLike = async (id) => {
@@ -216,21 +225,21 @@ buttonAdd.addEventListener("click", () => {
 
 api.getInitialData().then(([cards, data]) => {
   cards.forEach((card) => {
-    initialCardsSection.addItem(createCard(card, userId));
+    initialCardsSection.addItem(createCard(card, data._id));
   });
   initialCardsSection.renderItems();
-
+  userId = data._id;
   userInfo.setUserInfo(data);
 });
 
-Promise.all([api.getUserInfo(), api.getInitialCardsData()])
-  .then(([userData, cards]) => {
-    userId = userData._id;
-    userInfo.setUserInfo(userData);
-    initialCardsSection.renderItems(
-      cards.map((card) => createCard(card, userId))
-    );
-  })
-  .catch((err) => {
-    console.log(`Ошибка: ${err}`);
-  });
+// Promise.all([api.getUserInfo(), api.getInitialCardsData()])
+//   .then(([userData, cards]) => {
+
+//     userInfo.setUserInfo(userData);
+//     initialCardsSection.renderItems(
+//       cards.map((card) => createCard(card, userId))
+//     );
+//   })
+//   .catch((err) => {
+//     console.log(`Ошибка: ${err}`);
+//   });

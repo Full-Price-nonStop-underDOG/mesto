@@ -69,8 +69,9 @@ export class Card {
   }
 
   deleteCard() {
+    console.log("delete this shit");
     this._element.remove();
-    this._element = null;
+    //this._element = null;
   }
 
   // _likeButton() {
