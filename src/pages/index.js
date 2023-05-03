@@ -55,31 +55,27 @@ cardCreateValidator.enableValidation();
 const profileAvatarValidator = new FormValidator(config, avatarPopup);
 profileAvatarValidator.enableValidation();
 
-const popupEditProfile = new PopupWithForm("#popup_type_edit", (data) => {
-  handleEditProfileSubmit(data);
+const popupEditProfile = new PopupWithForm(
+  "#popup_type_edit",
+  handleEditProfileSubmit
   // popupEditProfile.close();
-});
-popupEditProfile.setEventListeners();
+);
+popupEditProfile.setSubmitListener();
 
 const popupAvatar = new PopupWithForm(
   ".popup_type_update-avatar",
   handleSubmitFormUpdateAvatar
 );
-popupAvatar.setEventListeners();
+popupAvatar.setSubmitListener();
 
 async function handleSubmitFormUpdateAvatar(data) {
-  popupAvatar.changeTextSubmitSave(popupAvatar);
   try {
-    try {
-      console.log("cshhchs");
-      const userProfile = await api.updateProfileUserAvatar(data);
-      userInfo.setUserInfo(userProfile);
-      popupAvatar.close();
-    } catch (error) {
-      return console.log(`Ошибка: ${error}`);
-    }
-  } finally {
-    popupAvatar.resetSubmitTextToDefault(popupAvatar);
+    console.log("cshhchs");
+    const userProfile = await api.updateProfileUserAvatar(data);
+    userInfo.setUserInfo(userProfile);
+    popupAvatar.close();
+  } catch (error) {
+    return console.log(`Ошибка: ${error}`);
   }
 }
 
@@ -92,18 +88,13 @@ buttonEditAvatar.addEventListener("click", () => {
 });
 
 async function handleEditProfileSubmit(formData) {
-  popupEditProfile.changeTextSubmitSave(popupEditProfile);
   try {
-    try {
-      await api.editProfileInfo(formData).then((formData) => {
-        userInfo.setUserInfo(formData);
-        popupEditProfile.close();
-      });
-    } catch (error) {
-      return console.log(`Ошибка: ${error}`);
-    }
-  } finally {
-    popupEditProfile.resetSubmitTextToDefault(popupEditProfile);
+    await api.editProfileInfo(formData).then((formData) => {
+      userInfo.setUserInfo(formData);
+      popupEditProfile.close();
+    });
+  } catch (error) {
+    return console.log(`Ошибка: ${error}`);
   }
 }
 
@@ -125,7 +116,6 @@ const initialCardsSection = new Section(".mesta");
 const popupConfirmation = new PopupConfirmation(".popup_type_confirmation");
 
 const onDelete = async (id) => {
-  //popupConfirmation.setEventListeners();
   try {
     const confirmation = await popupConfirmation.open();
 
@@ -162,34 +152,20 @@ const onDislike = async (id) => {
   }
 };
 
-function createCard(data, uId) {
-  const card = new Card(data, "#mesto", handleCardClick, uId, {
-    onDelete,
-    onLike,
-    onDislike,
-  });
-
-  // card.setDeleteIconClickHandler();
-  const cardElement = card.generateCard();
-
-  return cardElement;
-}
-
 async function handleAddCardSubmit(data) {
-  popupAddCard.changeTextSubmitSave(popupAddCard);
-
   try {
-    await api
-      .addNewCard(data)
-      .then((response) =>
-        initialCardsSection.addItem(createCard(response, userId))
-      );
+    const response = await api.addNewCard(data);
 
+    const card = new Card(response, "#mesto", handleCardClick, userId, {
+      onDelete,
+      onLike,
+      onDislike,
+    });
+
+    initialCardsSection.addItem(card.generateCard());
     popupAddCard.close();
   } catch (error) {
-    return console.log(`Ошибка: ${error}`);
-  } finally {
-    popupAddCard.resetSubmitTextToDefault(popupAddCard);
+    console.log(`Ошибка: ${error}`);
   }
 }
 
@@ -197,17 +173,28 @@ const popupAddCard = new PopupWithForm(
   "#popup_type_new-card",
   handleAddCardSubmit
 );
-popupAddCard.setEventListeners();
+popupAddCard.setSubmitListener();
 
 buttonAdd.addEventListener("click", () => {
   popupAddCard.open();
+
   cardCreateValidator.resetValidation();
 });
 
 api
   .getInitialData()
   .then(([cards, data]) => {
-    const cardElements = cards.map((card) => createCard(card, data._id));
+    const cardElements = cards.map((card) => {
+      const cardFormation = new Card(
+        card,
+        "#mesto",
+        handleCardClick,
+        data._id,
+        { onDelete, onLike, onDislike }
+      );
+      return cardFormation.generateCard();
+    });
+
     initialCardsSection.renderItems(cardElements);
     userId = data._id;
     userInfo.setUserInfo(data);

@@ -14,6 +14,7 @@ export class Card {
     this._onDeleteCallback = callbacks.onDelete;
     this._onLikeCallback = callbacks.onLike;
     this._onDislikeCallback = callbacks.onDislike;
+    //this.content = ths.generateCard();
   }
 
   _getTemplate() {
@@ -55,17 +56,6 @@ export class Card {
     this._countLikes.textContent = count;
 
     // this._likeDislike();
-  }
-
-  _likeDislike() {
-    const likesUser = this._likes.some((like) => like._id === this._userId);
-    if (likesUser) {
-      // this._likeButton()
-    } else {
-      // this._unlikeButton()
-    }
-
-    this.countLikes.textContent = this._likes.length;
   }
 
   deleteCard() {
