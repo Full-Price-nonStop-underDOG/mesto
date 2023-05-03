@@ -11,144 +11,94 @@ export class Api {
     return null;
   }
   async addLike(cardId) {
-    try {
-      const response = await fetch(`${this._url}/cards/${cardId}/likes`, {
-        method: "PUT",
-        headers: this._headers,
-      });
-      return this._handlePromiseRequest(response);
-    } catch (error) {
-      console.log(`Ошибка: ${error}`);
-      return error;
-    }
+    const response = await fetch(`${this._url}/cards/${cardId}/likes`, {
+      method: "PUT",
+      headers: this._headers,
+    });
+    return this._handlePromiseRequest(response);
   }
 
   async removeLike(cardId) {
-    try {
-      const response = await fetch(`${this._url}/cards/${cardId}/likes`, {
-        method: "DELETE",
-        headers: this._headers,
-      });
+    const response = await fetch(`${this._url}/cards/${cardId}/likes`, {
+      method: "DELETE",
+      headers: this._headers,
+    });
 
-      return this._handlePromiseRequest(response);
-    } catch (error) {
-      console.log(`Ошибка: ${error}`);
-      return error;
-    }
+    return this._handlePromiseRequest(response);
   }
 
   async getUserInfo() {
-    try {
-      const reply = await fetch(`${this._url}/users/me`, {
-        method: "GET",
-        headers: this._headers,
-      });
-      return this._handlePromiseRequest(reply);
-    } catch (error) {
-      console.log(`Ошибка: ${error}`);
-      return error;
-    }
+    const reply = await fetch(`${this._url}/users/me`, {
+      method: "GET",
+      headers: this._headers,
+    });
+    return this._handlePromiseRequest(reply);
   }
 
   async getInitialCardsData() {
-    try {
-      const reply = await fetch(`${this._url}/cards`, {
-        headers: this._headers,
-      });
-      return this._handlePromiseRequest(reply);
-    } catch (error) {
-      console.log(`Ошибка: ${error}`);
-      return error;
-    }
+    const reply = await fetch(`${this._url}/cards`, {
+      headers: this._headers,
+    });
+    return this._handlePromiseRequest(reply);
   }
 
   getInitialData() {
-    try {
-      return Promise.all([this.getInitialCardsData(), this.getUserInfo()]);
-    } catch (error) {
-      console.log(`Ошибка: ${error}`);
-      return error;
-    }
+    return Promise.all([this.getInitialCardsData(), this.getUserInfo()]);
   }
 
   async editProfileInfo(data) {
-    try {
-      console.log(data);
-      const response = await fetch(`${this._url}/users/me`, {
-        method: "PATCH",
-        headers: this._headers,
+    console.log(data);
+    const response = await fetch(`${this._url}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
 
-        body: JSON.stringify({
-          name: data.name,
-          about: data.about,
-          avatar: data.avatar,
-        }),
-      });
+      body: JSON.stringify({
+        name: data.name,
+        about: data.about,
+        avatar: data.avatar,
+      }),
+    });
 
-      return this._handlePromiseRequest(response);
-    } catch (error) {
-      console.log(`Ошибка: ${error}`);
-      return error;
-    }
+    return this._handlePromiseRequest(response);
   }
 
   async removeCard(cardId) {
-    try {
-      const response = await fetch(`${this._url}/cards/${cardId}`, {
-        method: "DELETE",
-        headers: this._headers,
-      });
-      return this._handlePromiseRequest(response);
-    } catch (error) {
-      console.log(`Ошибка: ${error}`);
-      return error;
-    }
+    const response = await fetch(`${this._url}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    });
+    return this._handlePromiseRequest(response);
   }
 
   async addNewCard(data) {
-    try {
-      const response = await fetch(`${this._url}/cards`, {
-        method: "POST",
-        headers: this._headers,
+    const response = await fetch(`${this._url}/cards`, {
+      method: "POST",
+      headers: this._headers,
 
-        body: JSON.stringify({
-          name: data.name,
-          link: data.link,
-        }),
-      });
-      return this._handlePromiseRequest(response);
-    } catch (error) {
-      console.log(`Ошибка: ${error}`);
-      return error;
-    }
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link,
+      }),
+    });
+    return this._handlePromiseRequest(response);
   }
 
   async getCard(cardId) {
-    try {
-      const response = await fetch(`${this._url}/cards/${cardId}`, {
-        method: "GET",
-        headers: this._headers,
-      });
-      return this._handlePromiseRequest(response);
-    } catch (error) {
-      console.log(`Ошибка: ${error}`);
-      return error;
-    }
+    const response = await fetch(`${this._url}/cards/${cardId}`, {
+      method: "GET",
+      headers: this._headers,
+    });
+    return this._handlePromiseRequest(response);
   }
 
   async updateProfileUserAvatar(data) {
-    try {
-      const response = await fetch(`${this._url}/users/me/avatar`, {
-        method: "PATCH",
-        headers: this._headers,
-        body: JSON.stringify({
-          avatar: data.avatar,
-        }),
-      });
-      return this._handlePromiseRequest(response);
-    } catch (error) {
-      console.log(`Ошибка: ${error}`);
-      return error;
-    }
+    const response = await fetch(`${this._url}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: data.avatar,
+      }),
+    });
+    return this._handlePromiseRequest(response);
   }
 }

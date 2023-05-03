@@ -42,7 +42,7 @@ export class Card {
     this._cardImage.alt = this._text;
     this.countLikes(this._likes.length);
     console.log(this._userId, this._likes);
-    if (this.hasUserLikes(this._likes)) {
+    if (this.hasUserLikes()) {
       this._buttonLike.classList.toggle("mesto__like_active");
     }
     if (this._userId !== this._ownerId) {
@@ -74,37 +74,6 @@ export class Card {
     //this._element = null;
   }
 
-  // _likeButton() {
-  //     this._buttonLike.classList.add('mesto__like_active');
-
-  //     async () => {
-  //         try {
-  //             const res = await api.addLike(data._id);
-  //             countLikes(res);
-  //             console.log('set like')
-  //         } catch (error) {
-  //             return console.log(`Ошибка: ${error}`);
-  //         }
-  //     }
-  // }
-
-  // async _likeButton() {
-  //   try {
-  //     //this._buttonLike.classList.toggle('mesto__like_active');
-  //     const { likes } = await this._api.addLike(this._id);
-
-  //     this.countLikes(likes.length);
-  //     // if (this._hasUserLikes(likes, userId)) {
-  //     this._buttonLike.classList.toggle("mesto__like_active");
-  //     // } else {
-  //     //   this._buttonLike.classList.к("mesto__like_active");
-  //     //  }
-  //     console.log("set like");
-  //   } catch (error) {
-  //     console.log(`Ошибка: ${error}`);
-  //   }
-  // }
-
   async likeButton(updateLikes) {
     try {
       //const { likes } = await callback(this._id);
@@ -116,30 +85,13 @@ export class Card {
     }
   }
 
-  // async _unlikeButton() {
-  //   try {
-  //     //this._buttonLike.classList.remove('mesto__like_active');
-  //     const { likes } = await this._api.removeLike(this._id);
-  //     this.countLikes(likes.length);
-  //     if (hasUserLikes(likes, userId)) {
-  //       this._buttonLike.classList.remove("mesto__like_active");
-  //     } else {
-  //       this._buttonLike.classList.toggle("mesto__like_active");
-  //     }
-  //     console.log("set dislike");
-  //   } catch (error) {
-  //     console.log(`Ошибка: ${error}`);
-  //   }
-  // }
-
   async unlikeButton(updateLikes) {
     try {
       //const { likes } = await callback(this._id);
-      if (this.hasUserLikes()) {
-        this.countLikes(updateLikes.length);
 
-        this._buttonLike.classList.remove("mesto__like_active");
-      }
+      this.countLikes(updateLikes.length);
+
+      this._buttonLike.classList.toggle("mesto__like_active");
 
       console.log("set dislike");
     } catch (error) {
@@ -153,20 +105,31 @@ export class Card {
     this._buttonLike.addEventListener("click", async () => {
       console.log("CLIIIIIck");
       if (this._buttonLike.classList.contains("mesto__like_active")) {
-        const response = await this._onDislikeCallback(this._id);
-
-        this.unlikeButton(response.likes);
+        try {
+          const response = await this._onDislikeCallback(this._id);
+          console.log("dis");
+          this.unlikeButton(response.likes);
+        } catch (error) {
+          console.error("Error while disliking:", error);
+        }
       } else {
-        const response = await this._onLikeCallback(this._id);
-
-        this.likeButton(response.likes);
+        try {
+          const response = await this._onLikeCallback(this._id);
+          this.likeButton(response.likes);
+        } catch (error) {
+          console.error("Error while liking:", error);
+        }
       }
     });
 
     this._buttonDelete.addEventListener("click", async () => {
-      const isSuccess = await this._onDeleteCallback(this._id);
-      if (isSuccess) {
-        this.deleteCard();
+      try {
+        const isSuccess = await this._onDeleteCallback(this._id);
+        if (isSuccess) {
+          this.deleteCard();
+        }
+      } catch (error) {
+        console.error("Error while deleting card:", error);
       }
     });
 

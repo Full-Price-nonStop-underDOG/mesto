@@ -46,24 +46,6 @@ const userInfo = new UserInfo({
 
 const api = new Api(elementsApi);
 
-// async function loadInitialCards() {
-//   try {
-//     const cards = await api.getInitialCardsData();
-//     console.log(cards);
-//     cards.forEach((card) => {
-//       initialCardsSection.addItem(createCard(card, userId));
-//     });
-
-//     initialCardsSection.renderItems();
-
-//     cardsSection.renderItems();
-//   } catch (error) {
-//     console.log(`Ошибка: ${error}`);
-//   }
-// }
-
-// loadInitialCards();
-
 const profileValidator = new FormValidator(config, profilePopup);
 profileValidator.enableValidation();
 
@@ -139,19 +121,10 @@ popupImage.setEventListeners();
 function handleCardClick(item) {
   popupImage.open(item.name, item.link);
 }
-const initialCardsSection = new Section(
-  {
-    items: [], // начальный пустой массив
-    renderer: (item) => {
-      const card = createCard(item, userId);
-      initialCardsSection.addItem(card);
-    },
-  },
-  ".mesta"
-);
+const initialCardsSection = new Section(".mesta");
+const popupConfirmation = new PopupConfirmation(".popup_type_confirmation");
 
 const onDelete = async (id) => {
-  const popupConfirmation = new PopupConfirmation(".popup_type_confirmation");
   //popupConfirmation.setEventListeners();
   try {
     const confirmation = await popupConfirmation.open();
@@ -170,15 +143,23 @@ const onDelete = async (id) => {
 };
 
 const onLike = async (id) => {
+  try {
+  } catch (error) {
+    console.log(error);
+  }
   const response = await api.addLike(id);
   console.log(response);
   return response;
 };
 
 const onDislike = async (id) => {
-  const response = await api.removeLike(id);
-  console.log(response);
-  return response;
+  try {
+    const response = await api.removeLike(id);
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 function createCard(data, uId) {
@@ -223,23 +204,14 @@ buttonAdd.addEventListener("click", () => {
   cardCreateValidator.resetValidation();
 });
 
-api.getInitialData().then(([cards, data]) => {
-  cards.forEach((card) => {
-    initialCardsSection.addItem(createCard(card, data._id));
+api
+  .getInitialData()
+  .then(([cards, data]) => {
+    const cardElements = cards.map((card) => createCard(card, data._id));
+    initialCardsSection.renderItems(cardElements);
+    userId = data._id;
+    userInfo.setUserInfo(data);
+  })
+  .catch((err) => {
+    console.log(`Ошибка: ${err}`);
   });
-  initialCardsSection.renderItems();
-  userId = data._id;
-  userInfo.setUserInfo(data);
-});
-
-// Promise.all([api.getUserInfo(), api.getInitialCardsData()])
-//   .then(([userData, cards]) => {
-
-//     userInfo.setUserInfo(userData);
-//     initialCardsSection.renderItems(
-//       cards.map((card) => createCard(card, userId))
-//     );
-//   })
-//   .catch((err) => {
-//     console.log(`Ошибка: ${err}`);
-//   });
