@@ -117,7 +117,7 @@ const popupConfirmation = new PopupConfirmation(".popup_type_confirmation");
 
 const onDelete = async (id) => {
   try {
-    const confirmation = await popupConfirmation.open();
+    await popupConfirmation.open();
 
     const response = await api.removeCard(id);
 
