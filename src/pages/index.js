@@ -60,13 +60,13 @@ const popupEditProfile = new PopupWithForm(
   handleEditProfileSubmit
   // popupEditProfile.close();
 );
-popupEditProfile.setSubmitListener();
+// popupEditProfile.setEventListeners();
 
 const popupAvatar = new PopupWithForm(
   ".popup_type_update-avatar",
   handleSubmitFormUpdateAvatar
 );
-popupAvatar.setSubmitListener();
+// popupAvatar.setEventListeners();
 
 async function handleSubmitFormUpdateAvatar(data) {
   try {
@@ -107,12 +107,19 @@ buttonEdit.addEventListener("click", () => {
 });
 
 const popupImage = new PopupWithImage(".popup_img");
-popupImage.setEventListeners();
+// popupImage.setEventListeners();
 
 function handleCardClick(item) {
   popupImage.open(item.name, item.link);
 }
-const initialCardsSection = new Section(".mesta");
+const initialCardsSection = new Section(
+  {
+    renderer: (container) => (content) => {
+      container.prepend(content);
+    },
+  },
+  ".mesta"
+);
 const popupConfirmation = new PopupConfirmation(".popup_type_confirmation");
 
 const onDelete = async (id) => {
@@ -152,17 +159,27 @@ const onDislike = async (id) => {
   }
 };
 
+function createCard(data, uId) {
+  const card = new Card(data, "#mesto", handleCardClick, uId, {
+    onDelete,
+    onLike,
+    onDislike,
+  });
+
+  // card.setDeleteIconClickHandler();
+  const cardElement = card.generateCard();
+
+  return cardElement;
+}
+
 async function handleAddCardSubmit(data) {
   try {
-    const response = await api.addNewCard(data);
+    await api
+      .addNewCard(data)
+      .then((response) =>
+        initialCardsSection.addItem(createCard(response, userId))
+      );
 
-    const card = new Card(response, "#mesto", handleCardClick, userId, {
-      onDelete,
-      onLike,
-      onDislike,
-    });
-
-    initialCardsSection.addItem(card.generateCard());
     popupAddCard.close();
   } catch (error) {
     console.log(`Ошибка: ${error}`);
@@ -173,7 +190,7 @@ const popupAddCard = new PopupWithForm(
   "#popup_type_new-card",
   handleAddCardSubmit
 );
-popupAddCard.setSubmitListener();
+// popupAddCard.setEventListeners();
 
 buttonAdd.addEventListener("click", () => {
   popupAddCard.open();
@@ -184,19 +201,10 @@ buttonAdd.addEventListener("click", () => {
 api
   .getInitialData()
   .then(([cards, data]) => {
-    const cardElements = cards.map((card) => {
-      const cardFormation = new Card(
-        card,
-        "#mesto",
-        handleCardClick,
-        data._id,
-        { onDelete, onLike, onDislike }
-      );
-      return cardFormation.generateCard();
-    });
-
-    initialCardsSection.renderItems(cardElements);
-    userId = data._id;
+    const { _id: id } = data;
+    const cardElements = cards.map((card) => createCard(card, id));
+    initialCardsSection.addItems(cardElements);
+    userId = id;
     userInfo.setUserInfo(data);
   })
   .catch((err) => {

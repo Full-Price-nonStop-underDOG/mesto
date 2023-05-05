@@ -9,6 +9,17 @@ export class PopupWithForm extends Popup {
     this._formElement = this._popup.querySelector(".form");
     this._inputList = this._formElement.querySelectorAll(".form__field");
     this._submitButton = this._formElement.querySelector(".form__button");
+
+    this.submitListener = (evt) => {
+      evt.preventDefault();
+      this.changeTextSubmitSave();
+      this._submitHandler(this._getInputValues())
+        .then(() => {
+          this.close();
+        })
+        .catch((error) => console.log(`Ошибка: ${error}`))
+        .finally(() => this.resetSubmitTextToDefault());
+    };
   }
 
   _getInputValues() {
@@ -23,18 +34,14 @@ export class PopupWithForm extends Popup {
     this._submitButton.textContent = text;
   }
 
-  setSubmitListener() {
+  setEventListeners() {
     super.setEventListeners();
-    this._formElement.addEventListener("submit", (evt) => {
-      evt.preventDefault();
-      this.changeTextSubmitSave();
-      this._submitHandler(this._getInputValues())
-        .then(() => {
-          this.resetSubmitTextToDefault();
-          this.close();
-        })
-        .catch((error) => console.log(`Ошибка: ${error}`));
-    });
+    this._formElement.addEventListener("submit", this.submitListener);
+  }
+
+  removeEventListeners() {
+    super.removeEventListeners();
+    this._formElement.removeEventListener("submit", this.submitListener);
   }
 
   close() {
